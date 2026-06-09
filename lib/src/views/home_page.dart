@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import "package:amber_calendar/src/widgets/calendar.dart";
+import "package:flutter/material.dart";
 
 class HomePage extends StatelessWidget {
   final bool isDynamic;
@@ -12,20 +13,9 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: colors.surface,
-      body: Column(
-        children: [
-          Spacer(),
-          Center(
-            child: Text(
-              "Salut !",
-              style: TextStyle(
-                fontSize: 26,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-          ),
-          Spacer(),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Column(children: [const Calendar()]),
       ),
     );
   }

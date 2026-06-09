@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:dynamic_color/dynamic_color.dart";
 import "package:amber_calendar/src/views/home_page.dart";
+import "package:google_fonts/google_fonts.dart";
 
 void main() {
   runApp(const Amber());
@@ -11,6 +12,13 @@ class Amber extends StatelessWidget {
 
   static const _defaultLightSeed = Colors.indigo;
   static const _defaultDarkSeed = Colors.indigo;
+
+  static final _lightTextTheme = GoogleFonts.googleSansFlexTextTheme(
+    Typography.material2021().black,
+  );
+  static final _darkTextTheme = GoogleFonts.googleSansFlexTextTheme(
+    Typography.material2021().white,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +46,15 @@ class Amber extends StatelessWidget {
         return MaterialApp(
           title: "Amber",
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(colorScheme: lightColorScheme, useMaterial3: true),
+          theme: ThemeData(
+            colorScheme: lightColorScheme,
+            useMaterial3: true,
+            textTheme: _lightTextTheme,
+          ),
           darkTheme: ThemeData(
             colorScheme: darkColorScheme,
             useMaterial3: true,
+            textTheme: _darkTextTheme,
           ),
           themeMode:
               ThemeMode.system, // Automatically switch based on system setting
