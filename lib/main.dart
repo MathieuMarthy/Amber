@@ -77,11 +77,21 @@ class Amber extends StatelessWidget {
             colorScheme: lightColorScheme,
             useMaterial3: true,
             textTheme: _lightTextTheme,
+            pageTransitionsTheme: const PageTransitionsTheme(
+              builders: {
+                TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+              },
+            ),
           ),
           darkTheme: ThemeData(
             colorScheme: darkColorScheme,
             useMaterial3: true,
             textTheme: _darkTextTheme,
+            pageTransitionsTheme: const PageTransitionsTheme(
+              builders: {
+                TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+              },
+            ),
           ),
           themeMode:
               ThemeMode.system, // Automatically switch based on system setting

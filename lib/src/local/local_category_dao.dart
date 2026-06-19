@@ -17,6 +17,11 @@ class LocalCategoryDao extends DatabaseAccessor<AppDatabase>
   Future<void> insertOrUpdate(CategoriesCompanion companion) =>
       into(categories).insertOnConflictUpdate(companion);
 
-  Future<void> deleteById(String id) =>
-      (delete(categories)..where((t) => t.id.equals(id))).go();
+  Future<void> deleteById(String id) async {
+    await transaction(() async {
+      await (update(db.subscriptions)..where((t) => t.categoryId.equals(id)))
+          .write(const SubscriptionsCompanion(categoryId: Value(null)));
+      await (delete(categories)..where((t) => t.id.equals(id))).go();
+    });
+  }
 }
