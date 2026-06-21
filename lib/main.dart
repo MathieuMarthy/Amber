@@ -6,6 +6,7 @@ import "package:dynamic_color/dynamic_color.dart";
 import "package:amber_calendar/src/views/home_page.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:provider/provider.dart";
+import "package:amber_calendar/src/localization/app_localizations.dart";
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,6 +74,8 @@ class Amber extends StatelessWidget {
         return MaterialApp(
           title: "Amber",
           debugShowCheckedModeBanner: false,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           theme: ThemeData(
             colorScheme: lightColorScheme,
             useMaterial3: true,

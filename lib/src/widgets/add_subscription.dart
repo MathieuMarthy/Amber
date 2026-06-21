@@ -1,6 +1,7 @@
 import 'package:amber_calendar/src/local/app_database.dart';
 import 'package:amber_calendar/src/repositories/category_repository.dart';
 import 'package:amber_calendar/src/repositories/subscription_repository.dart';
+import 'package:amber_calendar/src/utils/localization.dart';
 import 'package:amber_calendar/src/widgets/category_management_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -86,7 +87,7 @@ class AddSubscriptionState extends State<AddSubscription> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Erreur lors de la création : $e'),
+              content: Text(context.loc.errorCreating(e.toString())),
               backgroundColor: Theme.of(context).colorScheme.error,
             ),
           );
@@ -98,19 +99,19 @@ class AddSubscriptionState extends State<AddSubscription> {
 
   String? _validatePrice(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Veuillez saisir un prix';
+      return context.loc.validationPriceRequired;
     }
     final normalized = value.replaceAll(',', '.');
     final val = double.tryParse(normalized);
     if (val == null) {
-      return 'Veuillez saisir un nombre valide';
+      return context.loc.validationPriceInvalid;
     }
     if (val < 0) {
-      return 'Le prix ne peut pas être négatif';
+      return context.loc.validationPriceNegative;
     }
     final parts = normalized.split('.');
     if (parts.length > 1 && parts[1].length > 2) {
-      return 'Pas plus de 2 décimales';
+      return context.loc.validationPriceDecimals;
     }
     return null;
   }
@@ -127,7 +128,7 @@ class AddSubscriptionState extends State<AddSubscription> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Ajouter un abonnement',
+            context.loc.addSubscription,
             style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: colors.onSurface,
@@ -136,16 +137,16 @@ class AddSubscriptionState extends State<AddSubscription> {
           const SizedBox(height: 24),
           TextFormField(
             controller: _nameController,
-            decoration: const InputDecoration(
-              labelText: 'Nom de l\'abonnement',
-              hintText: 'ex: Netflix, Spotify',
-              border: OutlineInputBorder(),
-              icon: Icon(Icons.subscriptions),
+            decoration: InputDecoration(
+              labelText: context.loc.subscriptionName,
+              hintText: context.loc.subscriptionNameHint,
+              border: const OutlineInputBorder(),
+              icon: const Icon(Icons.subscriptions),
             ),
             textCapitalization: TextCapitalization.sentences,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'Veuillez saisir un nom';
+                return context.loc.validationNameRequired;
               }
               return null;
             },
@@ -153,12 +154,12 @@ class AddSubscriptionState extends State<AddSubscription> {
           const SizedBox(height: 16),
           TextFormField(
             controller: _priceController,
-            decoration: const InputDecoration(
-              labelText: 'Prix',
-              hintText: 'ex: 9.99',
+            decoration: InputDecoration(
+              labelText: context.loc.price,
+              hintText: context.loc.priceHint,
               suffixText: '€',
-              border: OutlineInputBorder(),
-              icon: Icon(Icons.euro),
+              border: const OutlineInputBorder(),
+              icon: const Icon(Icons.euro),
             ),
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
@@ -189,10 +190,10 @@ class AddSubscriptionState extends State<AddSubscription> {
             },
             borderRadius: BorderRadius.circular(4),
             child: InputDecorator(
-              decoration: const InputDecoration(
-                labelText: 'Date du premier paiement',
-                border: OutlineInputBorder(),
-                icon: Icon(Icons.calendar_today),
+              decoration: InputDecoration(
+                labelText: context.loc.firstPaymentDate,
+                border: const OutlineInputBorder(),
+                icon: const Icon(Icons.calendar_today),
               ),
               child: Text(
                 dateFormat.format(_startDay),
@@ -216,19 +217,19 @@ class AddSubscriptionState extends State<AddSubscription> {
                     Expanded(
                       flex: 2,
                       child: TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: 'Répéter tous les',
-                          border: OutlineInputBorder(),
+                        decoration: InputDecoration(
+                          labelText: context.loc.repeatEvery,
+                          border: const OutlineInputBorder(),
                         ),
                         keyboardType: TextInputType.number,
                         initialValue: _frequency.toString(),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Requis';
+                            return context.loc.required;
                           }
                           final val = int.tryParse(value);
                           if (val == null || val <= 0) {
-                            return 'Invalide';
+                            return context.loc.invalid;
                           }
                           return null;
                         },
@@ -245,26 +246,26 @@ class AddSubscriptionState extends State<AddSubscription> {
                       flex: 3,
                       child: DropdownButtonFormField<UnitOfTime>(
                         value: _unitOfTime,
-                        decoration: const InputDecoration(
-                          labelText: 'Période',
-                          border: OutlineInputBorder(),
+                        decoration: InputDecoration(
+                          labelText: context.loc.period,
+                          border: const OutlineInputBorder(),
                         ),
-                        items: const [
+                        items: [
                           DropdownMenuItem(
                             value: UnitOfTime.day,
-                            child: Text('Jour(s)'),
+                            child: Text(context.loc.days),
                           ),
                           DropdownMenuItem(
                             value: UnitOfTime.week,
-                            child: Text('Semaine(s)'),
+                            child: Text(context.loc.weeks),
                           ),
                           DropdownMenuItem(
                             value: UnitOfTime.month,
-                            child: Text('Mois'),
+                            child: Text(context.loc.months),
                           ),
                           DropdownMenuItem(
                             value: UnitOfTime.year,
-                            child: Text('An(s)'),
+                            child: Text(context.loc.years),
                           ),
                         ],
                         onChanged: (value) {
@@ -290,15 +291,15 @@ class AddSubscriptionState extends State<AddSubscription> {
                     Expanded(
                       child: DropdownButtonFormField<Category?>(
                         value: _selectedCategory,
-                        decoration: const InputDecoration(
-                          labelText: 'Catégorie',
-                          border: OutlineInputBorder(),
-                          icon: Icon(Icons.category),
+                        decoration: InputDecoration(
+                          labelText: context.loc.category,
+                          border: const OutlineInputBorder(),
+                          icon: const Icon(Icons.category),
                         ),
                         items: [
-                          const DropdownMenuItem<Category?>(
+                          DropdownMenuItem<Category?>(
                             value: null,
-                            child: Text('Aucune'),
+                            child: Text(context.loc.none),
                           ),
                           ..._categories.map(
                             (cat) => DropdownMenuItem<Category?>(
@@ -317,7 +318,7 @@ class AddSubscriptionState extends State<AddSubscription> {
                     const SizedBox(width: 8),
                     IconButton.filledTonal(
                       icon: const Icon(Icons.settings),
-                      tooltip: 'Gérer les catégories',
+                      tooltip: context.loc.manageCategories,
                       onPressed: () async {
                         await showDialog(
                           context: context,
@@ -332,11 +333,11 @@ class AddSubscriptionState extends State<AddSubscription> {
           const SizedBox(height: 16),
           TextFormField(
             controller: _notesController,
-            decoration: const InputDecoration(
-              labelText: 'Notes',
-              hintText: 'Ajouter des détails...',
-              border: OutlineInputBorder(),
-              icon: Icon(Icons.note),
+            decoration: InputDecoration(
+              labelText: context.loc.notes,
+              hintText: context.loc.notesHint,
+              border: const OutlineInputBorder(),
+              icon: const Icon(Icons.note),
             ),
             maxLines: 3,
             textCapitalization: TextCapitalization.sentences,

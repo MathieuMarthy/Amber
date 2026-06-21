@@ -1,4 +1,5 @@
 import 'package:amber_calendar/src/utils/toast.dart';
+import 'package:amber_calendar/src/utils/localization.dart';
 import 'package:amber_calendar/src/widgets/add_subscription.dart';
 import 'package:amber_calendar/src/widgets/fab_styles.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class _AddSubscriptionPageState extends State<AddSubscriptionPage> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.close),
-          tooltip: 'Annuler',
+          tooltip: context.loc.cancel,
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -50,7 +51,7 @@ class _AddSubscriptionPageState extends State<AddSubscriptionPage> {
                   final success =
                       await _addSubscriptionKey.currentState?.submit();
                   if (success == true && context.mounted) {
-                    showAndroidToast(context, 'Abonnement créé avec succès');
+                    showAndroidToast(context, context.loc.successToast);
                     Navigator.of(context).pop();
                   } else if (context.mounted) {
                     setState(() {

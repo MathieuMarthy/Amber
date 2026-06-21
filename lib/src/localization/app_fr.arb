@@ -1,0 +1,37 @@
+{
+  "@@locale": "fr",
+  "addSubscription": "Ajouter un abonnement",
+  "subscriptionName": "Nom de l'abonnement",
+  "subscriptionNameHint": "ex: Netflix, Spotify",
+  "validationNameRequired": "Veuillez saisir un nom",
+  "price": "Prix",
+  "priceHint": "ex: 9.99",
+  "validationPriceRequired": "Veuillez saisir un prix",
+  "validationPriceInvalid": "Veuillez saisir un nombre valide",
+  "validationPriceNegative": "Le prix ne peut pas être négatif",
+  "validationPriceDecimals": "Pas plus de 2 décimales",
+  "firstPaymentDate": "Date du premier paiement",
+  "repeatEvery": "Répéter tous les",
+  "required": "Requis",
+  "invalid": "Invalide",
+  "period": "Période",
+  "days": "Jour(s)",
+  "weeks": "Semaine(s)",
+  "months": "Mois",
+  "years": "An(s)",
+  "category": "Catégorie",
+  "none": "Aucune",
+  "manageCategories": "Gérer les catégories",
+  "notes": "Notes",
+  "notesHint": "Ajouter des détails...",
+  "errorCreating": "Erreur lors de la création : {error}",
+  "@errorCreating": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "cancel": "Annuler",
+  "successToast": "Abonnement créé avec succès"
+}
