@@ -245,7 +245,7 @@ class AddSubscriptionState extends State<AddSubscription> {
                     Expanded(
                       flex: 3,
                       child: DropdownButtonFormField<UnitOfTime>(
-                        value: _unitOfTime,
+                        initialValue: _unitOfTime,
                         decoration: InputDecoration(
                           labelText: context.loc.period,
                           border: const OutlineInputBorder(),
@@ -290,7 +290,7 @@ class AddSubscriptionState extends State<AddSubscription> {
                   children: [
                     Expanded(
                       child: DropdownButtonFormField<Category?>(
-                        value: _selectedCategory,
+                        initialValue: _selectedCategory,
                         decoration: InputDecoration(
                           labelText: context.loc.category,
                           border: const OutlineInputBorder(),

@@ -1,5 +1,6 @@
 import 'package:amber_calendar/src/local/app_database.dart';
 import 'package:amber_calendar/src/local/local_subscription_dao.dart';
+import 'package:amber_calendar/src/utils/date_utils.dart';
 import 'package:drift/drift.dart';
 import 'package:uuid/uuid.dart';
 
@@ -11,6 +12,35 @@ class SubscriptionRepository {
 
   Future<List<SubscriptionEntry>> getAll() => _dao.getAll();
   Future<SubscriptionEntry?> getById(String id) => _dao.getById(id);
+
+  Future<List<SubscriptionEntry>> getByMonth(DateTime date) async {
+    final allSubs = await getAll();
+    final monthStart = DateTime(date.year, date.month, 1);
+    final nextMonthStart = DateTime(date.year, date.month + 1, 1);
+
+    return allSubs.where((sub) {
+      // 1. The subscription must have started before the end of the target month
+      if (!sub.startDay.isBefore(nextMonthStart)) {
+        return false;
+      }
+
+      // 2. If it has an end date, it must not end before the start of the target month
+      DateTime? endDay;
+      if (sub.repeatUntil != null) {
+        endDay = sub.repeatUntil;
+      } else if (sub.repeatXTimes != null) {
+        final times = sub.repeatXTimes!;
+        final unit = UnitOfTime.values[sub.unitOfTime];
+        endDay = addDuration(sub.startDay, (times - 1) * sub.frequency, unit);
+      }
+
+      if (endDay != null && endDay.isBefore(monthStart)) {
+        return false;
+      }
+
+      return true;
+    }).toList();
+  }
 
   Future<SubscriptionEntry> create({
     String? categoryId,

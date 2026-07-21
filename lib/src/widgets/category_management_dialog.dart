@@ -62,9 +62,9 @@ class _CategoryManagementDialogState extends State<CategoryManagementDialog> {
         widget.onChanged();
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Erreur : $e')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Erreur : $e')));
         }
       }
     }
@@ -102,9 +102,9 @@ class _CategoryManagementDialogState extends State<CategoryManagementDialog> {
         widget.onChanged();
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Erreur : $e')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Erreur : $e')));
         }
       }
     }
@@ -166,27 +166,27 @@ class _CategoryManagementDialogState extends State<CategoryManagementDialog> {
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : _categories.isEmpty
-                      ? const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 24.0),
-                          child: Text('Aucune catégorie pour le moment.'),
-                        )
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _categories.length,
-                          itemBuilder: (context, index) {
-                            final cat = _categories[index];
-                            return ListTile(
-                              title: Text(cat.name),
-                              contentPadding: EdgeInsets.zero,
-                              trailing: IconButton(
-                                icon: const Icon(Icons.delete_outline),
-                                color: colors.error,
-                                tooltip: 'Supprimer',
-                                onPressed: () => _deleteCategory(cat),
-                              ),
-                            );
-                          },
-                        ),
+                  ? const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 24.0),
+                      child: Text('Aucune catégorie pour le moment.'),
+                    )
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: _categories.length,
+                      itemBuilder: (context, index) {
+                        final cat = _categories[index];
+                        return ListTile(
+                          title: Text(cat.name),
+                          contentPadding: EdgeInsets.zero,
+                          trailing: IconButton(
+                            icon: const Icon(Icons.delete_outline),
+                            color: colors.error,
+                            tooltip: 'Supprimer',
+                            onPressed: () => _deleteCategory(cat),
+                          ),
+                        );
+                      },
+                    ),
             ),
           ],
         ),

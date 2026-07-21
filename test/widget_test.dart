@@ -2,6 +2,7 @@ import 'package:amber_calendar/src/local/app_database.dart';
 import 'package:amber_calendar/src/repositories/category_repository.dart';
 import 'package:amber_calendar/src/repositories/subscription_repository.dart';
 import 'package:amber_calendar/src/widgets/add_subscription.dart';
+import 'package:amber_calendar/src/localization/app_localizations.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -24,6 +25,9 @@ void main() {
           Provider<SubscriptionRepository>.value(value: subscriptionRepo),
         ],
         child: const MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: Locale('fr'),
           home: Scaffold(
             body: SingleChildScrollView(
               child: AddSubscription(),

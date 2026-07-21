@@ -259,6 +259,36 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Abonnement créé avec succès'**
   String get successToast;
+
+  /// No description provided for @paymentThisMonth.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paiement ce mois-ci'**
+  String get paymentThisMonth;
+
+  /// No description provided for @recurrenceDays.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{Tous les jours} other{Tous les {count} jours}}'**
+  String recurrenceDays(int count);
+
+  /// No description provided for @recurrenceWeeks.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{Toutes les semaines} other{Toutes les {count} semaines}}'**
+  String recurrenceWeeks(int count);
+
+  /// No description provided for @recurrenceMonths.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{Tous les mois, le {day}} other{Tous les {count} mois, le {day}}}'**
+  String recurrenceMonths(int count, int day);
+
+  /// No description provided for @recurrenceYears.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{Tous les ans} other{Tous les {count} ans}}'**
+  String recurrenceYears(int count);
 }
 
 class _AppLocalizationsDelegate

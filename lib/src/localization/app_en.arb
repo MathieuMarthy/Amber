@@ -33,5 +33,41 @@
     }
   },
   "cancel": "Cancel",
-  "successToast": "Subscription created successfully"
+  "successToast": "Subscription created successfully",
+  "paymentThisMonth": "Payment this month",
+  "recurrenceDays": "{count, plural, =1{Every day} other{Every {count} days}}",
+  "@recurrenceDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recurrenceWeeks": "{count, plural, =1{Every week} other{Every {count} weeks}}",
+  "@recurrenceWeeks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recurrenceMonths": "{count, plural, =1{Every month, on the {day}} other{Every {count} months, on the {day}}}",
+  "@recurrenceMonths": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "recurrenceYears": "{count, plural, =1{Every year} other{Every {count} years}}",
+  "@recurrenceYears": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

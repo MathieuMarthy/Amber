@@ -90,4 +90,51 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get successToast => 'Subscription created successfully';
+
+  @override
+  String get paymentThisMonth => 'Payment this month';
+
+  @override
+  String recurrenceDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Every $count days',
+      one: 'Every day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String recurrenceWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Every $count weeks',
+      one: 'Every week',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String recurrenceMonths(int count, int day) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Every $count months, on the $day',
+      one: 'Every month, on the $day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String recurrenceYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Every $count years',
+      one: 'Every year',
+    );
+    return '$_temp0';
+  }
 }
