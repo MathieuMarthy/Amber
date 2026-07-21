@@ -20,6 +20,7 @@ class AddSubscriptionState extends State<AddSubscription> {
   final _nameController = TextEditingController();
   final _priceController = TextEditingController();
   final _notesController = TextEditingController();
+  final _websiteUrlController = TextEditingController();
 
   DateTime _startDay = DateTime.now();
   int _frequency = 1;
@@ -62,6 +63,7 @@ class AddSubscriptionState extends State<AddSubscription> {
     _nameController.dispose();
     _priceController.dispose();
     _notesController.dispose();
+    _websiteUrlController.dispose();
     super.dispose();
   }
 
@@ -77,6 +79,9 @@ class AddSubscriptionState extends State<AddSubscription> {
           name: _nameController.text.trim(),
           price: priceCents,
           notes: _notesController.text.trim(),
+          websiteUrl: _websiteUrlController.text.trim().isEmpty
+              ? null
+              : _websiteUrlController.text.trim(),
           categoryId: _selectedCategory?.id,
           startDay: _startDay,
           frequency: _frequency,
@@ -341,6 +346,26 @@ class AddSubscriptionState extends State<AddSubscription> {
             ),
             maxLines: 3,
             textCapitalization: TextCapitalization.sentences,
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _websiteUrlController,
+            decoration: InputDecoration(
+              labelText: context.loc.websiteUrl,
+              hintText: context.loc.websiteUrlHint,
+              border: const OutlineInputBorder(),
+              icon: const Icon(Icons.link),
+              suffixIcon: Tooltip(
+                message: context.loc.websiteUrlTooltip,
+                triggerMode: TooltipTriggerMode.tap,
+                showDuration: const Duration(seconds: 4),
+                child: const Icon(Icons.info_outline),
+              ),
+            ),
+            keyboardType: TextInputType.url,
+            autocorrect: false,
+            enableSuggestions: false,
+            textInputAction: TextInputAction.done,
           ),
         ],
       ),

@@ -368,6 +368,17 @@ class $SubscriptionsTable extends Subscriptions
     requiredDuringInsert: false,
     defaultValue: const Constant(''),
   );
+  static const VerificationMeta _websiteUrlMeta = const VerificationMeta(
+    'websiteUrl',
+  );
+  @override
+  late final GeneratedColumn<String> websiteUrl = GeneratedColumn<String>(
+    'website_url',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _startDayMeta = const VerificationMeta(
     'startDay',
   );
@@ -390,17 +401,15 @@ class $SubscriptionsTable extends Subscriptions
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _unitOfTimeMeta = const VerificationMeta(
-    'unitOfTime',
-  );
   @override
-  late final GeneratedColumn<int> unitOfTime = GeneratedColumn<int>(
-    'unit_of_time',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-  );
+  late final GeneratedColumnWithTypeConverter<UnitOfTime, int> unitOfTime =
+      GeneratedColumn<int>(
+        'unit_of_time',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: true,
+      ).withConverter<UnitOfTime>($SubscriptionsTable.$converterunitOfTime);
   static const VerificationMeta _repeatXTimesMeta = const VerificationMeta(
     'repeatXTimes',
   );
@@ -452,6 +461,7 @@ class $SubscriptionsTable extends Subscriptions
     name,
     price,
     notes,
+    websiteUrl,
     startDay,
     frequency,
     unitOfTime,
@@ -505,6 +515,12 @@ class $SubscriptionsTable extends Subscriptions
         notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
       );
     }
+    if (data.containsKey('website_url')) {
+      context.handle(
+        _websiteUrlMeta,
+        websiteUrl.isAcceptableOrUnknown(data['website_url']!, _websiteUrlMeta),
+      );
+    }
     if (data.containsKey('start_day')) {
       context.handle(
         _startDayMeta,
@@ -520,17 +536,6 @@ class $SubscriptionsTable extends Subscriptions
       );
     } else if (isInserting) {
       context.missing(_frequencyMeta);
-    }
-    if (data.containsKey('unit_of_time')) {
-      context.handle(
-        _unitOfTimeMeta,
-        unitOfTime.isAcceptableOrUnknown(
-          data['unit_of_time']!,
-          _unitOfTimeMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_unitOfTimeMeta);
     }
     if (data.containsKey('repeat_x_times')) {
       context.handle(
@@ -595,6 +600,10 @@ class $SubscriptionsTable extends Subscriptions
         DriftSqlType.string,
         data['${effectivePrefix}notes'],
       )!,
+      websiteUrl: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}website_url'],
+      ),
       startDay: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}start_day'],
@@ -603,10 +612,12 @@ class $SubscriptionsTable extends Subscriptions
         DriftSqlType.int,
         data['${effectivePrefix}frequency'],
       )!,
-      unitOfTime: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}unit_of_time'],
-      )!,
+      unitOfTime: $SubscriptionsTable.$converterunitOfTime.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}unit_of_time'],
+        )!,
+      ),
       repeatXTimes: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}repeat_x_times'],
@@ -630,6 +641,9 @@ class $SubscriptionsTable extends Subscriptions
   $SubscriptionsTable createAlias(String alias) {
     return $SubscriptionsTable(attachedDatabase, alias);
   }
+
+  static JsonTypeConverter2<UnitOfTime, int, int> $converterunitOfTime =
+      const EnumIndexConverter<UnitOfTime>(UnitOfTime.values);
 }
 
 class SubscriptionEntry extends DataClass
@@ -639,9 +653,10 @@ class SubscriptionEntry extends DataClass
   final String name;
   final int price;
   final String notes;
+  final String? websiteUrl;
   final DateTime startDay;
   final int frequency;
-  final int unitOfTime;
+  final UnitOfTime unitOfTime;
   final int? repeatXTimes;
   final DateTime? repeatUntil;
   final DateTime createdAt;
@@ -652,6 +667,7 @@ class SubscriptionEntry extends DataClass
     required this.name,
     required this.price,
     required this.notes,
+    this.websiteUrl,
     required this.startDay,
     required this.frequency,
     required this.unitOfTime,
@@ -670,9 +686,16 @@ class SubscriptionEntry extends DataClass
     map['name'] = Variable<String>(name);
     map['price'] = Variable<int>(price);
     map['notes'] = Variable<String>(notes);
+    if (!nullToAbsent || websiteUrl != null) {
+      map['website_url'] = Variable<String>(websiteUrl);
+    }
     map['start_day'] = Variable<DateTime>(startDay);
     map['frequency'] = Variable<int>(frequency);
-    map['unit_of_time'] = Variable<int>(unitOfTime);
+    {
+      map['unit_of_time'] = Variable<int>(
+        $SubscriptionsTable.$converterunitOfTime.toSql(unitOfTime),
+      );
+    }
     if (!nullToAbsent || repeatXTimes != null) {
       map['repeat_x_times'] = Variable<int>(repeatXTimes);
     }
@@ -693,6 +716,9 @@ class SubscriptionEntry extends DataClass
       name: Value(name),
       price: Value(price),
       notes: Value(notes),
+      websiteUrl: websiteUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(websiteUrl),
       startDay: Value(startDay),
       frequency: Value(frequency),
       unitOfTime: Value(unitOfTime),
@@ -718,9 +744,12 @@ class SubscriptionEntry extends DataClass
       name: serializer.fromJson<String>(json['name']),
       price: serializer.fromJson<int>(json['price']),
       notes: serializer.fromJson<String>(json['notes']),
+      websiteUrl: serializer.fromJson<String?>(json['websiteUrl']),
       startDay: serializer.fromJson<DateTime>(json['startDay']),
       frequency: serializer.fromJson<int>(json['frequency']),
-      unitOfTime: serializer.fromJson<int>(json['unitOfTime']),
+      unitOfTime: $SubscriptionsTable.$converterunitOfTime.fromJson(
+        serializer.fromJson<int>(json['unitOfTime']),
+      ),
       repeatXTimes: serializer.fromJson<int?>(json['repeatXTimes']),
       repeatUntil: serializer.fromJson<DateTime?>(json['repeatUntil']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
@@ -736,9 +765,12 @@ class SubscriptionEntry extends DataClass
       'name': serializer.toJson<String>(name),
       'price': serializer.toJson<int>(price),
       'notes': serializer.toJson<String>(notes),
+      'websiteUrl': serializer.toJson<String?>(websiteUrl),
       'startDay': serializer.toJson<DateTime>(startDay),
       'frequency': serializer.toJson<int>(frequency),
-      'unitOfTime': serializer.toJson<int>(unitOfTime),
+      'unitOfTime': serializer.toJson<int>(
+        $SubscriptionsTable.$converterunitOfTime.toJson(unitOfTime),
+      ),
       'repeatXTimes': serializer.toJson<int?>(repeatXTimes),
       'repeatUntil': serializer.toJson<DateTime?>(repeatUntil),
       'createdAt': serializer.toJson<DateTime>(createdAt),
@@ -752,9 +784,10 @@ class SubscriptionEntry extends DataClass
     String? name,
     int? price,
     String? notes,
+    Value<String?> websiteUrl = const Value.absent(),
     DateTime? startDay,
     int? frequency,
-    int? unitOfTime,
+    UnitOfTime? unitOfTime,
     Value<int?> repeatXTimes = const Value.absent(),
     Value<DateTime?> repeatUntil = const Value.absent(),
     DateTime? createdAt,
@@ -765,6 +798,7 @@ class SubscriptionEntry extends DataClass
     name: name ?? this.name,
     price: price ?? this.price,
     notes: notes ?? this.notes,
+    websiteUrl: websiteUrl.present ? websiteUrl.value : this.websiteUrl,
     startDay: startDay ?? this.startDay,
     frequency: frequency ?? this.frequency,
     unitOfTime: unitOfTime ?? this.unitOfTime,
@@ -782,6 +816,9 @@ class SubscriptionEntry extends DataClass
       name: data.name.present ? data.name.value : this.name,
       price: data.price.present ? data.price.value : this.price,
       notes: data.notes.present ? data.notes.value : this.notes,
+      websiteUrl: data.websiteUrl.present
+          ? data.websiteUrl.value
+          : this.websiteUrl,
       startDay: data.startDay.present ? data.startDay.value : this.startDay,
       frequency: data.frequency.present ? data.frequency.value : this.frequency,
       unitOfTime: data.unitOfTime.present
@@ -806,6 +843,7 @@ class SubscriptionEntry extends DataClass
           ..write('name: $name, ')
           ..write('price: $price, ')
           ..write('notes: $notes, ')
+          ..write('websiteUrl: $websiteUrl, ')
           ..write('startDay: $startDay, ')
           ..write('frequency: $frequency, ')
           ..write('unitOfTime: $unitOfTime, ')
@@ -824,6 +862,7 @@ class SubscriptionEntry extends DataClass
     name,
     price,
     notes,
+    websiteUrl,
     startDay,
     frequency,
     unitOfTime,
@@ -841,6 +880,7 @@ class SubscriptionEntry extends DataClass
           other.name == this.name &&
           other.price == this.price &&
           other.notes == this.notes &&
+          other.websiteUrl == this.websiteUrl &&
           other.startDay == this.startDay &&
           other.frequency == this.frequency &&
           other.unitOfTime == this.unitOfTime &&
@@ -856,9 +896,10 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
   final Value<String> name;
   final Value<int> price;
   final Value<String> notes;
+  final Value<String?> websiteUrl;
   final Value<DateTime> startDay;
   final Value<int> frequency;
-  final Value<int> unitOfTime;
+  final Value<UnitOfTime> unitOfTime;
   final Value<int?> repeatXTimes;
   final Value<DateTime?> repeatUntil;
   final Value<DateTime> createdAt;
@@ -870,6 +911,7 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
     this.name = const Value.absent(),
     this.price = const Value.absent(),
     this.notes = const Value.absent(),
+    this.websiteUrl = const Value.absent(),
     this.startDay = const Value.absent(),
     this.frequency = const Value.absent(),
     this.unitOfTime = const Value.absent(),
@@ -885,9 +927,10 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
     required String name,
     required int price,
     this.notes = const Value.absent(),
+    this.websiteUrl = const Value.absent(),
     required DateTime startDay,
     required int frequency,
-    required int unitOfTime,
+    required UnitOfTime unitOfTime,
     this.repeatXTimes = const Value.absent(),
     this.repeatUntil = const Value.absent(),
     required DateTime createdAt,
@@ -907,6 +950,7 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
     Expression<String>? name,
     Expression<int>? price,
     Expression<String>? notes,
+    Expression<String>? websiteUrl,
     Expression<DateTime>? startDay,
     Expression<int>? frequency,
     Expression<int>? unitOfTime,
@@ -922,6 +966,7 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
       if (name != null) 'name': name,
       if (price != null) 'price': price,
       if (notes != null) 'notes': notes,
+      if (websiteUrl != null) 'website_url': websiteUrl,
       if (startDay != null) 'start_day': startDay,
       if (frequency != null) 'frequency': frequency,
       if (unitOfTime != null) 'unit_of_time': unitOfTime,
@@ -939,9 +984,10 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
     Value<String>? name,
     Value<int>? price,
     Value<String>? notes,
+    Value<String?>? websiteUrl,
     Value<DateTime>? startDay,
     Value<int>? frequency,
-    Value<int>? unitOfTime,
+    Value<UnitOfTime>? unitOfTime,
     Value<int?>? repeatXTimes,
     Value<DateTime?>? repeatUntil,
     Value<DateTime>? createdAt,
@@ -954,6 +1000,7 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
       name: name ?? this.name,
       price: price ?? this.price,
       notes: notes ?? this.notes,
+      websiteUrl: websiteUrl ?? this.websiteUrl,
       startDay: startDay ?? this.startDay,
       frequency: frequency ?? this.frequency,
       unitOfTime: unitOfTime ?? this.unitOfTime,
@@ -983,6 +1030,9 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
     if (notes.present) {
       map['notes'] = Variable<String>(notes.value);
     }
+    if (websiteUrl.present) {
+      map['website_url'] = Variable<String>(websiteUrl.value);
+    }
     if (startDay.present) {
       map['start_day'] = Variable<DateTime>(startDay.value);
     }
@@ -990,7 +1040,9 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
       map['frequency'] = Variable<int>(frequency.value);
     }
     if (unitOfTime.present) {
-      map['unit_of_time'] = Variable<int>(unitOfTime.value);
+      map['unit_of_time'] = Variable<int>(
+        $SubscriptionsTable.$converterunitOfTime.toSql(unitOfTime.value),
+      );
     }
     if (repeatXTimes.present) {
       map['repeat_x_times'] = Variable<int>(repeatXTimes.value);
@@ -1018,6 +1070,7 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
           ..write('name: $name, ')
           ..write('price: $price, ')
           ..write('notes: $notes, ')
+          ..write('websiteUrl: $websiteUrl, ')
           ..write('startDay: $startDay, ')
           ..write('frequency: $frequency, ')
           ..write('unitOfTime: $unitOfTime, ')
@@ -1343,9 +1396,10 @@ typedef $$SubscriptionsTableCreateCompanionBuilder =
       required String name,
       required int price,
       Value<String> notes,
+      Value<String?> websiteUrl,
       required DateTime startDay,
       required int frequency,
-      required int unitOfTime,
+      required UnitOfTime unitOfTime,
       Value<int?> repeatXTimes,
       Value<DateTime?> repeatUntil,
       required DateTime createdAt,
@@ -1359,9 +1413,10 @@ typedef $$SubscriptionsTableUpdateCompanionBuilder =
       Value<String> name,
       Value<int> price,
       Value<String> notes,
+      Value<String?> websiteUrl,
       Value<DateTime> startDay,
       Value<int> frequency,
-      Value<int> unitOfTime,
+      Value<UnitOfTime> unitOfTime,
       Value<int?> repeatXTimes,
       Value<DateTime?> repeatUntil,
       Value<DateTime> createdAt,
@@ -1425,6 +1480,11 @@ class $$SubscriptionsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get websiteUrl => $composableBuilder(
+    column: $table.websiteUrl,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<DateTime> get startDay => $composableBuilder(
     column: $table.startDay,
     builder: (column) => ColumnFilters(column),
@@ -1435,10 +1495,11 @@ class $$SubscriptionsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<int> get unitOfTime => $composableBuilder(
-    column: $table.unitOfTime,
-    builder: (column) => ColumnFilters(column),
-  );
+  ColumnWithTypeConverterFilters<UnitOfTime, UnitOfTime, int> get unitOfTime =>
+      $composableBuilder(
+        column: $table.unitOfTime,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
 
   ColumnFilters<int> get repeatXTimes => $composableBuilder(
     column: $table.repeatXTimes,
@@ -1510,6 +1571,11 @@ class $$SubscriptionsTableOrderingComposer
 
   ColumnOrderings<String> get notes => $composableBuilder(
     column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get websiteUrl => $composableBuilder(
+    column: $table.websiteUrl,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -1593,16 +1659,22 @@ class $$SubscriptionsTableAnnotationComposer
   GeneratedColumn<String> get notes =>
       $composableBuilder(column: $table.notes, builder: (column) => column);
 
+  GeneratedColumn<String> get websiteUrl => $composableBuilder(
+    column: $table.websiteUrl,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<DateTime> get startDay =>
       $composableBuilder(column: $table.startDay, builder: (column) => column);
 
   GeneratedColumn<int> get frequency =>
       $composableBuilder(column: $table.frequency, builder: (column) => column);
 
-  GeneratedColumn<int> get unitOfTime => $composableBuilder(
-    column: $table.unitOfTime,
-    builder: (column) => column,
-  );
+  GeneratedColumnWithTypeConverter<UnitOfTime, int> get unitOfTime =>
+      $composableBuilder(
+        column: $table.unitOfTime,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<int> get repeatXTimes => $composableBuilder(
     column: $table.repeatXTimes,
@@ -1677,9 +1749,10 @@ class $$SubscriptionsTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<int> price = const Value.absent(),
                 Value<String> notes = const Value.absent(),
+                Value<String?> websiteUrl = const Value.absent(),
                 Value<DateTime> startDay = const Value.absent(),
                 Value<int> frequency = const Value.absent(),
-                Value<int> unitOfTime = const Value.absent(),
+                Value<UnitOfTime> unitOfTime = const Value.absent(),
                 Value<int?> repeatXTimes = const Value.absent(),
                 Value<DateTime?> repeatUntil = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
@@ -1691,6 +1764,7 @@ class $$SubscriptionsTableTableManager
                 name: name,
                 price: price,
                 notes: notes,
+                websiteUrl: websiteUrl,
                 startDay: startDay,
                 frequency: frequency,
                 unitOfTime: unitOfTime,
@@ -1707,9 +1781,10 @@ class $$SubscriptionsTableTableManager
                 required String name,
                 required int price,
                 Value<String> notes = const Value.absent(),
+                Value<String?> websiteUrl = const Value.absent(),
                 required DateTime startDay,
                 required int frequency,
-                required int unitOfTime,
+                required UnitOfTime unitOfTime,
                 Value<int?> repeatXTimes = const Value.absent(),
                 Value<DateTime?> repeatUntil = const Value.absent(),
                 required DateTime createdAt,
@@ -1721,6 +1796,7 @@ class $$SubscriptionsTableTableManager
                 name: name,
                 price: price,
                 notes: notes,
+                websiteUrl: websiteUrl,
                 startDay: startDay,
                 frequency: frequency,
                 unitOfTime: unitOfTime,

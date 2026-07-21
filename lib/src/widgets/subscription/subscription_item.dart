@@ -1,5 +1,6 @@
 import 'package:amber_calendar/src/local/app_database.dart';
 import 'package:amber_calendar/src/utils/localization.dart';
+import 'package:amber_calendar/src/widgets/subscription/subscription_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -16,7 +17,7 @@ class _SubscriptionItemState extends State<SubscriptionItem> {
   String _getRecurrenceText(BuildContext context) {
     final sub = widget.subscription;
     final freq = sub.frequency;
-    final unit = UnitOfTime.values[sub.unitOfTime];
+    final unit = sub.unitOfTime;
     final day = sub.startDay.day;
 
     switch (unit) {
@@ -42,44 +43,42 @@ class _SubscriptionItemState extends State<SubscriptionItem> {
 
     return Row(
       children: [
-        Row(
-          children: [
-            Container(
-              alignment: Alignment.topCenter,
-              padding: EdgeInsets.all(20),
-              child: Container(
-                height: 46,
-                width: 46,
-                decoration: BoxDecoration(
-                  color: colors.primaryContainer,
-                  borderRadius: BorderRadius.circular(100),
+        Expanded(
+          child: Row(
+            children: [
+              Container(
+                alignment: Alignment.topCenter,
+                padding: const EdgeInsets.all(20),
+                child: SubscriptionAvatar(
+                  name: widget.subscription.name,
+                  websiteUrl: widget.subscription.websiteUrl,
                 ),
               ),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.subscription.name,
-                    style: const TextStyle(fontSize: 18),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    _getRecurrenceText(context),
-                    style: TextStyle(color: colors.outline),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.subscription.name,
+                      style: const TextStyle(fontSize: 18),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      _getRecurrenceText(context),
+                      style: TextStyle(color: colors.outline),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-        const Spacer(),
         Text(
           formattedPrice,
           style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
         ),
+        const SizedBox(width: 20),
       ],
     );
   }

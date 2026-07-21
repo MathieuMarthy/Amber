@@ -30,7 +30,7 @@ class SubscriptionRepository {
         endDay = sub.repeatUntil;
       } else if (sub.repeatXTimes != null) {
         final times = sub.repeatXTimes!;
-        final unit = UnitOfTime.values[sub.unitOfTime];
+        final unit = sub.unitOfTime;
         endDay = addDuration(sub.startDay, (times - 1) * sub.frequency, unit);
       }
 
@@ -47,6 +47,7 @@ class SubscriptionRepository {
     required String name,
     required int price,
     String notes = '',
+    String? websiteUrl,
     required DateTime startDay,
     required int frequency,
     required int unitOfTime,
@@ -67,9 +68,10 @@ class SubscriptionRepository {
       name: name,
       price: price,
       notes: Value(notes),
+      websiteUrl: Value(websiteUrl),
       startDay: startDay,
       frequency: frequency,
-      unitOfTime: unitOfTime,
+      unitOfTime: UnitOfTime.values[unitOfTime],
       repeatXTimes: Value(repeatXTimes),
       repeatUntil: Value(repeatUntil),
       createdAt: now,
@@ -81,9 +83,10 @@ class SubscriptionRepository {
       name: name,
       price: price,
       notes: notes,
+      websiteUrl: websiteUrl,
       startDay: startDay,
       frequency: frequency,
-      unitOfTime: unitOfTime,
+      unitOfTime: UnitOfTime.values[unitOfTime],
       createdAt: now,
       updatedAt: now,
     );
@@ -95,12 +98,14 @@ class SubscriptionRepository {
     int? price,
     String? notes,
     String? categoryId,
+    String? websiteUrl,
   }) async {
     final companion = SubscriptionsCompanion(
       id: Value(sub.id),
       name: Value(name ?? sub.name),
       price: Value(price ?? sub.price),
       notes: Value(notes ?? sub.notes),
+      websiteUrl: Value(websiteUrl ?? sub.websiteUrl),
       categoryId: Value(categoryId),
       startDay: Value(sub.startDay),
       frequency: Value(sub.frequency),

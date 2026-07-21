@@ -92,6 +92,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get successToast => 'Abonnement créé avec succès';
 
   @override
+  String get websiteUrl => 'URL du site (optionnel)';
+
+  @override
+  String get websiteUrlHint => 'https://netflix.com';
+
+  @override
+  String get websiteUrlTooltip =>
+      'Entrez l\'URL du site pour afficher automatiquement le logo du service (ex : https://netflix.com)';
+
+  @override
   String get paymentThisMonth => 'Paiement ce mois-ci';
 
   @override

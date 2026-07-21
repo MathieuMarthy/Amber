@@ -29,6 +29,7 @@ class Subscriptions extends Table {
   TextColumn get name => text()();
   IntColumn get price => integer()(); // en centimes (ex: 1799 = 17,99€)
   TextColumn get notes => text().withDefault(const Constant(''))();
+  TextColumn get websiteUrl => text().nullable()();
   DateTimeColumn get startDay => dateTime()();
   IntColumn get frequency => integer()();
   IntColumn get unitOfTime => intEnum<UnitOfTime>()();
@@ -51,7 +52,16 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onUpgrade: (migrator, from, to) async {
+      if (from < 2) {
+        await migrator.addColumn(subscriptions, subscriptions.websiteUrl);
+      }
+    },
+  );
 }
 
 LazyDatabase _openConnection() {

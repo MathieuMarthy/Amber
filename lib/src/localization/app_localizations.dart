@@ -260,6 +260,24 @@ abstract class AppLocalizations {
   /// **'Abonnement créé avec succès'**
   String get successToast;
 
+  /// No description provided for @websiteUrl.
+  ///
+  /// In fr, this message translates to:
+  /// **'URL du site (optionnel)'**
+  String get websiteUrl;
+
+  /// No description provided for @websiteUrlHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'https://netflix.com'**
+  String get websiteUrlHint;
+
+  /// No description provided for @websiteUrlTooltip.
+  ///
+  /// In fr, this message translates to:
+  /// **'Entrez l\'URL du site pour afficher automatiquement le logo du service (ex : https://netflix.com)'**
+  String get websiteUrlTooltip;
+
   /// No description provided for @paymentThisMonth.
   ///
   /// In fr, this message translates to:
