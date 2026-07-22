@@ -1,6 +1,7 @@
 {
   "@@locale": "en",
   "addSubscription": "Add subscription",
+  "editSubscription": "Edit subscription",
   "subscriptionName": "Subscription name",
   "subscriptionNameHint": "e.g., Netflix, Spotify",
   "validationNameRequired": "Please enter a name",
@@ -72,5 +73,12 @@
         "type": "int"
       }
     }
-  }
+  },
+  "subscriptionDetails": "Subscription details",
+  "edit": "Edit",
+  "delete": "Delete",
+  "deleteSubscription": "Delete subscription",
+  "deleteConfirmation": "Are you sure you want to delete this subscription?",
+  "successUpdateToast": "Subscription updated successfully",
+  "successDeleteToast": "Subscription deleted successfully"
 }

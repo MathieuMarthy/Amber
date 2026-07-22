@@ -9,7 +9,9 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddSubscription extends StatefulWidget {
-  const AddSubscription({super.key});
+  final SubscriptionEntry? subscriptionToEdit;
+
+  const AddSubscription({super.key, this.subscriptionToEdit});
 
   @override
   State<AddSubscription> createState() => AddSubscriptionState();
@@ -32,6 +34,17 @@ class AddSubscriptionState extends State<AddSubscription> {
   @override
   void initState() {
     super.initState();
+    if (widget.subscriptionToEdit != null) {
+      final sub = widget.subscriptionToEdit!;
+      _nameController.text = sub.name;
+      _priceController.text = (sub.price / 100).toStringAsFixed(2);
+      _notesController.text = sub.notes;
+      _websiteUrlController.text = sub.websiteUrl ?? '';
+      _startDay = sub.startDay;
+      _frequency = sub.frequency;
+      _unitOfTime = sub.unitOfTime;
+      // Category will be selected after categories are loaded
+    }
     _loadCategories();
   }
 
@@ -43,7 +56,15 @@ class AddSubscriptionState extends State<AddSubscription> {
         setState(() {
           _categories = cats;
           _isLoadingCategories = false;
-          if (_selectedCategory != null &&
+          
+          if (widget.subscriptionToEdit?.categoryId != null) {
+            final catId = widget.subscriptionToEdit!.categoryId;
+            try {
+              _selectedCategory = cats.firstWhere((c) => c.id == catId);
+            } catch (e) {
+              _selectedCategory = null;
+            }
+          } else if (_selectedCategory != null &&
               !cats.any((c) => c.id == _selectedCategory!.id)) {
             _selectedCategory = null;
           }
@@ -75,18 +96,34 @@ class AddSubscriptionState extends State<AddSubscription> {
 
       try {
         final repo = context.read<SubscriptionRepository>();
-        await repo.create(
-          name: _nameController.text.trim(),
-          price: priceCents,
-          notes: _notesController.text.trim(),
-          websiteUrl: _websiteUrlController.text.trim().isEmpty
-              ? null
-              : _websiteUrlController.text.trim(),
-          categoryId: _selectedCategory?.id,
-          startDay: _startDay,
-          frequency: _frequency,
-          unitOfTime: _unitOfTime.index,
-        );
+        final webUrl = _websiteUrlController.text.trim();
+        
+        if (widget.subscriptionToEdit != null) {
+          await repo.update(
+            widget.subscriptionToEdit!,
+            name: _nameController.text.trim(),
+            price: priceCents,
+            notes: _notesController.text.trim(),
+            websiteUrl: webUrl.isNotEmpty ? webUrl : null,
+            clearWebsiteUrl: webUrl.isEmpty,
+            categoryId: _selectedCategory?.id,
+            clearCategory: _selectedCategory == null,
+            startDay: _startDay,
+            frequency: _frequency,
+            unitOfTime: _unitOfTime.index,
+          );
+        } else {
+          await repo.create(
+            name: _nameController.text.trim(),
+            price: priceCents,
+            notes: _notesController.text.trim(),
+            websiteUrl: webUrl.isNotEmpty ? webUrl : null,
+            categoryId: _selectedCategory?.id,
+            startDay: _startDay,
+            frequency: _frequency,
+            unitOfTime: _unitOfTime.index,
+          );
+        }
         return true;
       } catch (e) {
         if (mounted) {
@@ -133,7 +170,9 @@ class AddSubscriptionState extends State<AddSubscription> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            context.loc.addSubscription,
+            widget.subscriptionToEdit != null
+                ? context.loc.editSubscription
+                : context.loc.addSubscription,
             style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: colors.onSurface,

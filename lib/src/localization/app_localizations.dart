@@ -104,6 +104,12 @@ abstract class AppLocalizations {
   /// **'Ajouter un abonnement'**
   String get addSubscription;
 
+  /// No description provided for @editSubscription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier l\'abonnement'**
+  String get editSubscription;
+
   /// No description provided for @subscriptionName.
   ///
   /// In fr, this message translates to:
@@ -307,6 +313,48 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'{count, plural, =1{Tous les ans} other{Tous les {count} ans}}'**
   String recurrenceYears(int count);
+
+  /// No description provided for @subscriptionDetails.
+  ///
+  /// In fr, this message translates to:
+  /// **'Détails de l\'abonnement'**
+  String get subscriptionDetails;
+
+  /// No description provided for @edit.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier'**
+  String get edit;
+
+  /// No description provided for @delete.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer'**
+  String get delete;
+
+  /// No description provided for @deleteSubscription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer l\'abonnement'**
+  String get deleteSubscription;
+
+  /// No description provided for @deleteConfirmation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Êtes-vous sûr de vouloir supprimer cet abonnement ?'**
+  String get deleteConfirmation;
+
+  /// No description provided for @successUpdateToast.
+  ///
+  /// In fr, this message translates to:
+  /// **'Abonnement modifié avec succès'**
+  String get successUpdateToast;
+
+  /// No description provided for @successDeleteToast.
+  ///
+  /// In fr, this message translates to:
+  /// **'Abonnement supprimé avec succès'**
+  String get successDeleteToast;
 }
 
 class _AppLocalizationsDelegate

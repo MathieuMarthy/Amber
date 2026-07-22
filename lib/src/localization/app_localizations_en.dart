@@ -12,6 +12,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addSubscription => 'Add subscription';
 
   @override
+  String get editSubscription => 'Edit subscription';
+
+  @override
   String get subscriptionName => 'Subscription name';
 
   @override
@@ -147,4 +150,26 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get subscriptionDetails => 'Subscription details';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get deleteSubscription => 'Delete subscription';
+
+  @override
+  String get deleteConfirmation =>
+      'Are you sure you want to delete this subscription?';
+
+  @override
+  String get successUpdateToast => 'Subscription updated successfully';
+
+  @override
+  String get successDeleteToast => 'Subscription deleted successfully';
 }

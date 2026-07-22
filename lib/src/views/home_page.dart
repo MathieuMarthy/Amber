@@ -28,7 +28,12 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Calendar(key: _calendarKey),
-            Expanded(child: SubscriptionList(key: _subscriptionListKey)),
+            Expanded(
+              child: SubscriptionList(
+                key: _subscriptionListKey,
+                onRefreshNeeded: () => _calendarKey.currentState?.refresh(),
+              ),
+            ),
           ],
         ),
       ),

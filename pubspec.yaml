@@ -47,6 +47,7 @@ dependencies:
   path: ^1.9.1
   provider: ^6.1.5+1
   cached_network_image: ^3.4.1
+  url_launcher: ^6.3.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

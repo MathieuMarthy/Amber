@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SubscriptionList extends StatefulWidget {
-  const SubscriptionList({super.key});
+  final VoidCallback? onRefreshNeeded;
+
+  const SubscriptionList({super.key, this.onRefreshNeeded});
 
   @override
   State<SubscriptionList> createState() => SubscriptionListState();
@@ -47,7 +49,13 @@ class SubscriptionListState extends State<SubscriptionList> {
           child: SingleChildScrollView(
             child: Column(
               children: subscriptionOfTheMonth
-                  .map((sub) => SubscriptionItem(subscription: sub))
+                  .map((sub) => SubscriptionItem(
+                        subscription: sub,
+                        onChanged: () {
+                          refresh();
+                          widget.onRefreshNeeded?.call();
+                        },
+                      ))
                   .toList(),
             ),
           ),

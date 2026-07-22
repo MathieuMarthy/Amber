@@ -1,13 +1,19 @@
 import 'package:amber_calendar/src/local/app_database.dart';
 import 'package:amber_calendar/src/utils/localization.dart';
+import 'package:amber_calendar/src/views/subscription_details_page.dart';
 import 'package:amber_calendar/src/widgets/subscription/subscription_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class SubscriptionItem extends StatefulWidget {
   final SubscriptionEntry subscription;
+  final VoidCallback? onChanged;
 
-  const SubscriptionItem({super.key, required this.subscription});
+  const SubscriptionItem({
+    super.key,
+    required this.subscription,
+    this.onChanged,
+  });
 
   @override
   State<SubscriptionItem> createState() => _SubscriptionItemState();
@@ -41,7 +47,20 @@ class _SubscriptionItemState extends State<SubscriptionItem> {
       locale: Localizations.localeOf(context).toString(),
     ).format(widget.subscription.price / 100);
 
-    return Row(
+    return InkWell(
+      onTap: () async {
+        final result = await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => SubscriptionDetailsPage(
+              subscription: widget.subscription,
+            ),
+          ),
+        );
+        if (result == true) {
+          widget.onChanged?.call();
+        }
+      },
+      child: Row(
       children: [
         Expanded(
           child: Row(
@@ -49,9 +68,12 @@ class _SubscriptionItemState extends State<SubscriptionItem> {
               Container(
                 alignment: Alignment.topCenter,
                 padding: const EdgeInsets.all(20),
-                child: SubscriptionAvatar(
-                  name: widget.subscription.name,
-                  websiteUrl: widget.subscription.websiteUrl,
+                child: Hero(
+                  tag: 'avatar_${widget.subscription.id}',
+                  child: SubscriptionAvatar(
+                    name: widget.subscription.name,
+                    websiteUrl: widget.subscription.websiteUrl,
+                  ),
                 ),
               ),
               Expanded(
@@ -80,6 +102,7 @@ class _SubscriptionItemState extends State<SubscriptionItem> {
         ),
         const SizedBox(width: 20),
       ],
+    ),
     );
   }
 }

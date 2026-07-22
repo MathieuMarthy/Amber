@@ -86,21 +86,40 @@ class SubscriptionRepository {
     String? name,
     int? price,
     String? notes,
+    // Provide a way to clear categoryId/websiteUrl. If we just pass null, we don't know if the caller meant "no change" or "clear".
+    // We'll use a `clearCategory` and `clearWebsiteUrl` boolean flag for simplicity.
     String? categoryId,
+    bool clearCategory = false,
     String? websiteUrl,
+    bool clearWebsiteUrl = false,
+    DateTime? startDay,
+    int? frequency,
+    int? unitOfTime,
+    int? repeatXTimes,
+    bool clearRepeatXTimes = false,
+    DateTime? repeatUntil,
+    bool clearRepeatUntil = false,
   }) async {
     final companion = SubscriptionsCompanion(
       id: Value(sub.id),
       name: Value(name ?? sub.name),
       price: Value(price ?? sub.price),
       notes: Value(notes ?? sub.notes),
-      websiteUrl: Value(websiteUrl ?? sub.websiteUrl),
-      categoryId: Value(categoryId),
-      startDay: Value(sub.startDay),
-      frequency: Value(sub.frequency),
-      unitOfTime: Value(sub.unitOfTime),
-      repeatXTimes: Value(sub.repeatXTimes),
-      repeatUntil: Value(sub.repeatUntil),
+      websiteUrl: clearWebsiteUrl 
+          ? const Value(null) 
+          : (websiteUrl != null ? Value(websiteUrl) : Value(sub.websiteUrl)),
+      categoryId: clearCategory 
+          ? const Value(null) 
+          : (categoryId != null ? Value(categoryId) : Value(sub.categoryId)),
+      startDay: Value(startDay ?? sub.startDay),
+      frequency: Value(frequency ?? sub.frequency),
+      unitOfTime: Value(unitOfTime != null ? UnitOfTime.values[unitOfTime] : sub.unitOfTime),
+      repeatXTimes: clearRepeatXTimes 
+          ? const Value(null) 
+          : (repeatXTimes != null ? Value(repeatXTimes) : Value(sub.repeatXTimes)),
+      repeatUntil: clearRepeatUntil 
+          ? const Value(null) 
+          : (repeatUntil != null ? Value(repeatUntil) : Value(sub.repeatUntil)),
       createdAt: Value(sub.createdAt),
       updatedAt: Value(DateTime.now()),
     );
