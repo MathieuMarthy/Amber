@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _subscriptionListKey = GlobalKey<SubscriptionListState>();
+  final _calendarKey = GlobalKey<CalendarState>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(32.0),
         child: Column(
           children: [
-            const Calendar(),
+            Calendar(key: _calendarKey),
             Expanded(child: SubscriptionList(key: _subscriptionListKey)),
           ],
         ),
@@ -42,6 +43,7 @@ class _HomePageState extends State<HomePage> {
               ),
             );
             _subscriptionListKey.currentState?.refresh();
+            _calendarKey.currentState?.refresh();
           },
           style: fabStyle,
           child: const Icon(Icons.add),

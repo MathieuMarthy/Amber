@@ -39,13 +39,9 @@ class SubscriptionListState extends State<SubscriptionList> {
     return Column(
       children: [
         const Padding(padding: EdgeInsets.only(top: 92)),
-        Row(
-          children: [
-            Text(
-              context.loc.paymentThisMonth,
-              style: const TextStyle(fontSize: 22),
-            ),
-          ],
+        Text(
+          context.loc.paymentThisMonth,
+          style: const TextStyle(fontSize: 22),
         ),
         Expanded(
           child: SingleChildScrollView(

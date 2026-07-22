@@ -1,4 +1,5 @@
 import 'package:amber_calendar/src/services/favicon_service.dart';
+import 'package:amber_calendar/src/utils/subscription_color.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -14,12 +15,6 @@ class SubscriptionAvatar extends StatelessWidget {
     this.size = 46,
   });
 
-  /// Generates a deterministic color from the subscription name.
-  Color _colorFromName() {
-    final hash = name.codeUnits.fold(0, (a, b) => a + b);
-    final hue = (hash * 137.508) % 360; // golden angle for good distribution
-    return HSLColor.fromAHSL(1.0, hue, 0.55, 0.42).toColor();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +22,7 @@ class SubscriptionAvatar extends StatelessWidget {
     final faviconUrl = FaviconService.getFaviconUrl(websiteUrl);
 
     final fallback = Container(
-      color: _colorFromName(),
+      color: subscriptionColor(name),
       child: Center(
         child: Text(
           name.isNotEmpty ? name[0].toUpperCase() : '?',

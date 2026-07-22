@@ -53,3 +53,47 @@ DateTime addDuration(DateTime date, int amount, UnitOfTime unit) {
       );
   }
 }
+
+/// Returns all payment dates for [sub] within [rangeStart]..[rangeEnd] (inclusive).
+/// Dates are normalized to midnight (no time component).
+List<DateTime> getPaymentDaysInRange(
+  SubscriptionEntry sub,
+  DateTime rangeStart,
+  DateTime rangeEnd,
+) {
+  // Normalize all dates to midnight
+  var current = DateTime(sub.startDay.year, sub.startDay.month, sub.startDay.day);
+  final start = DateTime(rangeStart.year, rangeStart.month, rangeStart.day);
+  final end = DateTime(rangeEnd.year, rangeEnd.month, rangeEnd.day);
+
+  // Compute effective end date from repeatXTimes / repeatUntil
+  DateTime? effectiveEnd;
+  if (sub.repeatUntil != null) {
+    effectiveEnd = DateTime(
+      sub.repeatUntil!.year,
+      sub.repeatUntil!.month,
+      sub.repeatUntil!.day,
+    );
+  } else if (sub.repeatXTimes != null) {
+    final last = addDuration(
+      current,
+      (sub.repeatXTimes! - 1) * sub.frequency,
+      sub.unitOfTime,
+    );
+    effectiveEnd = DateTime(last.year, last.month, last.day);
+  }
+
+  // Fast-forward to rangeStart
+  while (current.isBefore(start)) {
+    current = addDuration(current, sub.frequency, sub.unitOfTime);
+  }
+
+  final days = <DateTime>[];
+  while (!current.isAfter(end)) {
+    if (effectiveEnd == null || !current.isAfter(effectiveEnd)) {
+      days.add(current);
+    }
+    current = addDuration(current, sub.frequency, sub.unitOfTime);
+  }
+  return days;
+}

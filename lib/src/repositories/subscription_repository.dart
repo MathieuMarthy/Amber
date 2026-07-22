@@ -14,32 +14,32 @@ class SubscriptionRepository {
   Future<SubscriptionEntry?> getById(String id) => _dao.getById(id);
 
   Future<List<SubscriptionEntry>> getByMonth(DateTime date) async {
-    final allSubs = await getAll();
     final monthStart = DateTime(date.year, date.month, 1);
-    final nextMonthStart = DateTime(date.year, date.month + 1, 1);
+    final monthEnd = DateTime(date.year, date.month + 1, 0); // last day of month
+    final allSubs = await getAll();
 
     return allSubs.where((sub) {
-      // 1. The subscription must have started before the end of the target month
-      if (!sub.startDay.isBefore(nextMonthStart)) {
-        return false;
-      }
-
-      // 2. If it has an end date, it must not end before the start of the target month
-      DateTime? endDay;
-      if (sub.repeatUntil != null) {
-        endDay = sub.repeatUntil;
-      } else if (sub.repeatXTimes != null) {
-        final times = sub.repeatXTimes!;
-        final unit = sub.unitOfTime;
-        endDay = addDuration(sub.startDay, (times - 1) * sub.frequency, unit);
-      }
-
-      if (endDay != null && endDay.isBefore(monthStart)) {
-        return false;
-      }
-
-      return true;
+      return getPaymentDaysInRange(sub, monthStart, monthEnd).isNotEmpty;
     }).toList();
+  }
+
+  /// Returns a map of {normalizedDate: [subscriptions]} for the given date range.
+  /// Each day holds at most 3 subscriptions (for calendar dot display).
+  Future<Map<DateTime, List<SubscriptionEntry>>> getPaymentDayMap(
+    DateTime rangeStart,
+    DateTime rangeEnd,
+  ) async {
+    final allSubs = await getAll();
+    final map = <DateTime, List<SubscriptionEntry>>{};
+
+    for (final sub in allSubs) {
+      final days = getPaymentDaysInRange(sub, rangeStart, rangeEnd);
+      for (final day in days) {
+        final list = map.putIfAbsent(day, () => []);
+        if (list.length < 3) list.add(sub);
+      }
+    }
+    return map;
   }
 
   Future<SubscriptionEntry> create({
@@ -78,18 +78,7 @@ class SubscriptionRepository {
       updatedAt: now,
     );
     await _dao.insertOrUpdate(companion);
-    return SubscriptionEntry(
-      id: id,
-      name: name,
-      price: price,
-      notes: notes,
-      websiteUrl: websiteUrl,
-      startDay: startDay,
-      frequency: frequency,
-      unitOfTime: UnitOfTime.values[unitOfTime],
-      createdAt: now,
-      updatedAt: now,
-    );
+    return (await _dao.getById(id))!;
   }
 
   Future<SubscriptionEntry> update(
