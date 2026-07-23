@@ -56,7 +56,7 @@ class AddSubscriptionState extends State<AddSubscription> {
         setState(() {
           _categories = cats;
           _isLoadingCategories = false;
-          
+
           if (widget.subscriptionToEdit?.categoryId != null) {
             final catId = widget.subscriptionToEdit!.categoryId;
             try {
@@ -97,7 +97,7 @@ class AddSubscriptionState extends State<AddSubscription> {
       try {
         final repo = context.read<SubscriptionRepository>();
         final webUrl = _websiteUrlController.text.trim();
-        
+
         if (widget.subscriptionToEdit != null) {
           await repo.update(
             widget.subscriptionToEdit!,

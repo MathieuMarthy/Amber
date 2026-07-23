@@ -62,7 +62,11 @@ List<DateTime> getPaymentDaysInRange(
   DateTime rangeEnd,
 ) {
   // Normalize all dates to midnight
-  var current = DateTime(sub.startDay.year, sub.startDay.month, sub.startDay.day);
+  var current = DateTime(
+    sub.startDay.year,
+    sub.startDay.month,
+    sub.startDay.day,
+  );
   final start = DateTime(rangeStart.year, rangeStart.month, rangeStart.day);
   final end = DateTime(rangeEnd.year, rangeEnd.month, rangeEnd.day);
 
@@ -83,6 +87,25 @@ List<DateTime> getPaymentDaysInRange(
     effectiveEnd = DateTime(last.year, last.month, last.day);
   }
 
+  if (sub.cancelledAt != null) {
+    final cancelled = DateTime(
+      sub.cancelledAt!.year,
+      sub.cancelledAt!.month,
+      sub.cancelledAt!.day,
+    );
+    // If it was cancelled, the effective end is the earlier of the natural end and the cancel date.
+    // However, payments on the exact day of cancellation are typically omitted or included?
+    // Let's include payments up to the day before cancellation, or exactly on cancellation?
+    // If they cancel today, they don't want today's payment? Or they do?
+    // Let's say cancelled date is strictly the cut-off. If a payment is ON the cancellation day,
+    // usually we don't count it if they cancelled before it processed, but let's just use `isAfter` or `isBefore`.
+    if (effectiveEnd == null || cancelled.isBefore(effectiveEnd)) {
+      // Exclude the cancellation day itself by subtracting one day,
+      // or just keep it as the limit. Let's just use it as limit:
+      effectiveEnd = cancelled.subtract(const Duration(days: 1));
+    }
+  }
+
   // Fast-forward to rangeStart
   while (current.isBefore(start)) {
     current = addDuration(current, sub.frequency, sub.unitOfTime);
@@ -96,4 +119,46 @@ List<DateTime> getPaymentDaysInRange(
     current = addDuration(current, sub.frequency, sub.unitOfTime);
   }
   return days;
+}
+
+/// Returns true if the subscription is currently active (has future payments
+/// and has not been manually cancelled).
+bool isActive(SubscriptionEntry sub) {
+  // Manually cancelled
+  if (sub.cancelledAt != null) return false;
+
+  // Naturally ended via repeatUntil
+  if (sub.repeatUntil != null) {
+    final today = DateTime.now();
+    final end = DateTime(
+      sub.repeatUntil!.year,
+      sub.repeatUntil!.month,
+      sub.repeatUntil!.day,
+    );
+    if (end.isBefore(DateTime(today.year, today.month, today.day))) {
+      return false;
+    }
+  }
+
+  // Naturally ended via repeatXTimes (last payment is in the past)
+  if (sub.repeatXTimes != null) {
+    final start = DateTime(
+      sub.startDay.year,
+      sub.startDay.month,
+      sub.startDay.day,
+    );
+    final lastPayment = addDuration(
+      start,
+      (sub.repeatXTimes! - 1) * sub.frequency,
+      sub.unitOfTime,
+    );
+    final today = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
+    if (lastPayment.isBefore(today)) return false;
+  }
+
+  return true;
 }

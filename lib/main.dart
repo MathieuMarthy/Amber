@@ -3,7 +3,7 @@ import "package:amber_calendar/src/repositories/category_repository.dart";
 import "package:amber_calendar/src/repositories/subscription_repository.dart";
 import "package:flutter/material.dart";
 import "package:dynamic_color/dynamic_color.dart";
-import "package:amber_calendar/src/views/home_page.dart";
+import "package:amber_calendar/src/views/root_page.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:provider/provider.dart";
 import "package:amber_calendar/src/localization/app_localizations.dart";
@@ -98,7 +98,7 @@ class Amber extends StatelessWidget {
           ),
           themeMode:
               ThemeMode.system, // Automatically switch based on system setting
-          home: HomePage(isDynamic: lightDynamic != null),
+          home: const RootPage(),
         );
       },
     );

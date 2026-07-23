@@ -15,7 +15,6 @@ class SubscriptionAvatar extends StatelessWidget {
     this.size = 46,
   });
 
-
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
@@ -35,30 +34,30 @@ class SubscriptionAvatar extends StatelessWidget {
       ),
     );
 
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(size / 2),
-        border: Border.all(color: colors.outlineVariant, width: 1),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(size / 2),
-        child: faviconUrl != null
-            ? CachedNetworkImage(
-                imageUrl: faviconUrl,
-                placeholder: (context, url) => fallback,
-                errorWidget: (context, url, error) => fallback,
-                imageBuilder: (context, imageProvider) => Container(
-                  color: colors.surfaceContainerLow,
-                  padding: EdgeInsets.all(size * 0.18),
-                  child: Image(
-                    image: imageProvider,
-                    fit: BoxFit.contain,
+    return Material(
+      type: MaterialType.transparency,
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(size / 2),
+          border: Border.all(color: colors.outlineVariant, width: 1),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(size / 2),
+          child: faviconUrl != null
+              ? CachedNetworkImage(
+                  imageUrl: faviconUrl,
+                  placeholder: (context, url) => fallback,
+                  errorWidget: (context, url, error) => fallback,
+                  imageBuilder: (context, imageProvider) => Container(
+                    color: colors.surfaceContainerLow,
+                    padding: EdgeInsets.all(size * 0.18),
+                    child: Image(image: imageProvider, fit: BoxFit.contain),
                   ),
-                ),
-              )
-            : fallback,
+                )
+              : fallback,
+        ),
       ),
     );
   }

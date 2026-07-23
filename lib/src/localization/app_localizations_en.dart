@@ -172,4 +172,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get successDeleteToast => 'Subscription deleted successfully';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get allSubscriptions => 'All subscriptions';
+
+  @override
+  String get noSubscriptions => 'No subscriptions yet';
+
+  @override
+  String inactiveSince(String date) {
+    return 'Inactive since $date';
+  }
+
+  @override
+  String get inactive => 'Inactive';
+
+  @override
+  String get stopSubscription => 'Stop subscription';
+
+  @override
+  String get stopConfirmation =>
+      'Do you want to stop this subscription? It will be kept in history.';
+
+  @override
+  String get stop => 'Stop';
+
+  @override
+  String get successStopToast => 'Subscription stopped';
+
+  @override
+  String get reactivateSubscription => 'Reactivate';
+
+  @override
+  String get successReactivateToast => 'Subscription reactivated';
+
+  @override
+  String get filterAll => 'All';
+
+  @override
+  String get filterActive => 'Active';
+
+  @override
+  String get filterInactive => 'Inactive';
 }

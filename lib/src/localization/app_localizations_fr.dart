@@ -172,4 +172,49 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get successDeleteToast => 'Abonnement supprimé avec succès';
+
+  @override
+  String get home => 'Accueil';
+
+  @override
+  String get allSubscriptions => 'Abonnements';
+
+  @override
+  String get noSubscriptions => 'Aucun abonnement pour l\'instant';
+
+  @override
+  String inactiveSince(String date) {
+    return 'Inactif depuis le $date';
+  }
+
+  @override
+  String get inactive => 'Inactif';
+
+  @override
+  String get stopSubscription => 'Arrêter l\'abonnement';
+
+  @override
+  String get stopConfirmation =>
+      'Voulez-vous arrêter cet abonnement ? Il sera conservé dans l\'historique.';
+
+  @override
+  String get stop => 'Arrêter';
+
+  @override
+  String get successStopToast => 'Abonnement arrêté';
+
+  @override
+  String get reactivateSubscription => 'Réactiver';
+
+  @override
+  String get successReactivateToast => 'Abonnement réactivé';
+
+  @override
+  String get filterAll => 'Tous';
+
+  @override
+  String get filterActive => 'Actifs';
+
+  @override
+  String get filterInactive => 'Inactifs';
 }

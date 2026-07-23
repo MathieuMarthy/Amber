@@ -54,8 +54,8 @@ class _AddSubscriptionPageState extends State<AddSubscriptionPage> {
                   setState(() {
                     _isSubmitting = true;
                   });
-                  final success =
-                      await _addSubscriptionKey.currentState?.submit();
+                  final success = await _addSubscriptionKey.currentState
+                      ?.submit();
                   if (success == true && context.mounted) {
                     final msg = widget.subscriptionToEdit != null
                         ? context.loc.successUpdateToast
@@ -75,4 +75,3 @@ class _AddSubscriptionPageState extends State<AddSubscriptionPage> {
     );
   }
 }
-

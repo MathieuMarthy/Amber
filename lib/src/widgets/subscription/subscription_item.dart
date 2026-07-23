@@ -8,11 +8,13 @@ import 'package:intl/intl.dart';
 class SubscriptionItem extends StatefulWidget {
   final SubscriptionEntry subscription;
   final VoidCallback? onChanged;
+  final String heroTagPrefix;
 
   const SubscriptionItem({
     super.key,
     required this.subscription,
     this.onChanged,
+    this.heroTagPrefix = '',
   });
 
   @override
@@ -53,6 +55,7 @@ class _SubscriptionItemState extends State<SubscriptionItem> {
           MaterialPageRoute(
             builder: (context) => SubscriptionDetailsPage(
               subscription: widget.subscription,
+              heroTagPrefix: widget.heroTagPrefix,
             ),
           ),
         );
@@ -61,48 +64,49 @@ class _SubscriptionItemState extends State<SubscriptionItem> {
         }
       },
       child: Row(
-      children: [
-        Expanded(
-          child: Row(
-            children: [
-              Container(
-                alignment: Alignment.topCenter,
-                padding: const EdgeInsets.all(20),
-                child: Hero(
-                  tag: 'avatar_${widget.subscription.id}',
-                  child: SubscriptionAvatar(
-                    name: widget.subscription.name,
-                    websiteUrl: widget.subscription.websiteUrl,
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                Container(
+                  alignment: Alignment.topCenter,
+                  padding: const EdgeInsets.all(20),
+                  child: Hero(
+                    tag:
+                        '${widget.heroTagPrefix}avatar_${widget.subscription.id}',
+                    child: SubscriptionAvatar(
+                      name: widget.subscription.name,
+                      websiteUrl: widget.subscription.websiteUrl,
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.subscription.name,
-                      style: const TextStyle(fontSize: 18),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      _getRecurrenceText(context),
-                      style: TextStyle(color: colors.outline),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.subscription.name,
+                        style: const TextStyle(fontSize: 18),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        _getRecurrenceText(context),
+                        style: TextStyle(color: colors.outline),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Text(
-          formattedPrice,
-          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
-        ),
-        const SizedBox(width: 20),
-      ],
-    ),
+          Text(
+            formattedPrice,
+            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+          ),
+          const SizedBox(width: 20),
+        ],
+      ),
     );
   }
 }

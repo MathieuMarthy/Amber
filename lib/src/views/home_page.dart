@@ -1,57 +1,51 @@
-import 'package:amber_calendar/src/views/add_subscription_page.dart';
 import 'package:amber_calendar/src/widgets/calendar.dart';
-import 'package:amber_calendar/src/widgets/fab_styles.dart';
 import 'package:amber_calendar/src/widgets/subscription_list.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  final bool isDynamic;
-
-  const HomePage({super.key, required this.isDynamic});
+/// The body of the home tab: calendar + this month's subscription list.
+/// The FAB and Scaffold are managed by RootPage.
+class HomePageBody extends StatefulWidget {
+  const HomePageBody({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePageBody> createState() => HomePageBodyState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageBodyState extends State<HomePageBody> {
   final _subscriptionListKey = GlobalKey<SubscriptionListState>();
   final _calendarKey = GlobalKey<CalendarState>();
+  DateTime _currentMonth = DateTime.now();
+
+  void refresh() {
+    _subscriptionListKey.currentState?.refresh();
+    _calendarKey.currentState?.refresh();
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-
-    return Scaffold(
-      backgroundColor: colors.surface,
-      body: Padding(
+    return ColoredBox(
+      color: colors.surface,
+      child: Padding(
         padding: const EdgeInsets.all(32.0),
         child: Column(
           children: [
-            Calendar(key: _calendarKey),
+            Calendar(
+              key: _calendarKey,
+              onMonthChanged: (month) {
+                if (mounted) {
+                  setState(() => _currentMonth = month);
+                }
+              },
+            ),
             Expanded(
               child: SubscriptionList(
                 key: _subscriptionListKey,
+                month: _currentMonth,
                 onRefreshNeeded: () => _calendarKey.currentState?.refresh(),
               ),
             ),
           ],
-        ),
-      ),
-      floatingActionButton: Hero(
-        tag: 'fab',
-        flightShuttleBuilder: fabShuttleBuilder,
-        child: FilledButton(
-          onPressed: () async {
-            await Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const AddSubscriptionPage(),
-              ),
-            );
-            _subscriptionListKey.currentState?.refresh();
-            _calendarKey.currentState?.refresh();
-          },
-          style: fabStyle,
-          child: const Icon(Icons.add),
         ),
       ),
     );

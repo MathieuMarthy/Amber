@@ -80,5 +80,26 @@
   "deleteSubscription": "Supprimer l'abonnement",
   "deleteConfirmation": "Êtes-vous sûr de vouloir supprimer cet abonnement ?",
   "successUpdateToast": "Abonnement modifié avec succès",
-  "successDeleteToast": "Abonnement supprimé avec succès"
+  "successDeleteToast": "Abonnement supprimé avec succès",
+  "home": "Accueil",
+  "allSubscriptions": "Abonnements",
+  "noSubscriptions": "Aucun abonnement pour l'instant",
+  "inactiveSince": "Inactif depuis le {date}",
+  "@inactiveSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "inactive": "Inactif",
+  "stopSubscription": "Arrêter l'abonnement",
+  "stopConfirmation": "Voulez-vous arrêter cet abonnement ? Il sera conservé dans l'historique.",
+  "stop": "Arrêter",
+  "successStopToast": "Abonnement arrêté",
+  "reactivateSubscription": "Réactiver",
+  "successReactivateToast": "Abonnement réactivé",
+  "filterAll": "Tous",
+  "filterActive": "Actifs",
+  "filterInactive": "Inactifs"
 }

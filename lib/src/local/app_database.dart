@@ -35,6 +35,7 @@ class Subscriptions extends Table {
   IntColumn get unitOfTime => intEnum<UnitOfTime>()();
   IntColumn get repeatXTimes => integer().nullable()();
   DateTimeColumn get repeatUntil => dateTime().nullable()();
+  DateTimeColumn get cancelledAt => dateTime().nullable()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
 
@@ -52,13 +53,16 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onUpgrade: (migrator, from, to) async {
       if (from < 2) {
         await migrator.addColumn(subscriptions, subscriptions.websiteUrl);
+      }
+      if (from < 3) {
+        await migrator.addColumn(subscriptions, subscriptions.cancelledAt);
       }
     },
   );

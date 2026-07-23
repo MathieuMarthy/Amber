@@ -80,5 +80,26 @@
   "deleteSubscription": "Delete subscription",
   "deleteConfirmation": "Are you sure you want to delete this subscription?",
   "successUpdateToast": "Subscription updated successfully",
-  "successDeleteToast": "Subscription deleted successfully"
+  "successDeleteToast": "Subscription deleted successfully",
+  "home": "Home",
+  "allSubscriptions": "All subscriptions",
+  "noSubscriptions": "No subscriptions yet",
+  "inactiveSince": "Inactive since {date}",
+  "@inactiveSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "inactive": "Inactive",
+  "stopSubscription": "Stop subscription",
+  "stopConfirmation": "Do you want to stop this subscription? It will be kept in history.",
+  "stop": "Stop",
+  "successStopToast": "Subscription stopped",
+  "reactivateSubscription": "Reactivate",
+  "successReactivateToast": "Subscription reactivated",
+  "filterAll": "All",
+  "filterActive": "Active",
+  "filterInactive": "Inactive"
 }

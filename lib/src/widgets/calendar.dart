@@ -7,7 +7,9 @@ import "package:provider/provider.dart";
 import "package:table_calendar/table_calendar.dart";
 
 class Calendar extends StatefulWidget {
-  const Calendar({super.key});
+  final ValueChanged<DateTime>? onMonthChanged;
+
+  const Calendar({super.key, this.onMonthChanged});
 
   @override
   State<Calendar> createState() => CalendarState();
@@ -27,10 +29,16 @@ class CalendarState extends State<Calendar> {
 
   Future<void> _loadPaymentDays(DateTime focusedDay) async {
     // Cover the full 6-week range table_calendar may show
-    final rangeStart = DateTime(focusedDay.year, focusedDay.month, 1)
-        .subtract(const Duration(days: 7));
-    final rangeEnd = DateTime(focusedDay.year, focusedDay.month + 1, 0)
-        .add(const Duration(days: 7));
+    final rangeStart = DateTime(
+      focusedDay.year,
+      focusedDay.month,
+      1,
+    ).subtract(const Duration(days: 7));
+    final rangeEnd = DateTime(
+      focusedDay.year,
+      focusedDay.month + 1,
+      0,
+    ).add(const Duration(days: 7));
 
     final repo = context.read<SubscriptionRepository>();
     final map = await repo.getPaymentDayMap(rangeStart, rangeEnd);
@@ -68,6 +76,7 @@ class CalendarState extends State<Calendar> {
         onPageChanged: (focusedDay) {
           _focusedDay = focusedDay;
           _loadPaymentDays(focusedDay);
+          widget.onMonthChanged?.call(focusedDay);
         },
         headerStyle: const HeaderStyle(
           formatButtonVisible: false,

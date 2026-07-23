@@ -9,11 +9,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  testWidgets('AddSubscription form renders with correct fields',
-      (WidgetTester tester) async {
+  testWidgets('AddSubscription form renders with correct fields', (
+    WidgetTester tester,
+  ) async {
     // Create an in-memory database for testing
-    final db =
-        AppDatabase.forTesting(NativeDatabase.memory());
+    final db = AppDatabase.forTesting(NativeDatabase.memory());
     final categoryRepo = CategoryRepository(db.localCategoryDao);
     final subscriptionRepo = SubscriptionRepository(db.localSubscriptionDao);
 
@@ -28,11 +28,7 @@ void main() {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: Locale('fr'),
-          home: Scaffold(
-            body: SingleChildScrollView(
-              child: AddSubscription(),
-            ),
-          ),
+          home: Scaffold(body: SingleChildScrollView(child: AddSubscription())),
         ),
       ),
     );
@@ -53,5 +49,3 @@ void main() {
     await db.close();
   });
 }
-
-

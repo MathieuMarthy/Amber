@@ -432,6 +432,17 @@ class $SubscriptionsTable extends Subscriptions
     type: DriftSqlType.dateTime,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _cancelledAtMeta = const VerificationMeta(
+    'cancelledAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> cancelledAt = GeneratedColumn<DateTime>(
+    'cancelled_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -467,6 +478,7 @@ class $SubscriptionsTable extends Subscriptions
     unitOfTime,
     repeatXTimes,
     repeatUntil,
+    cancelledAt,
     createdAt,
     updatedAt,
   ];
@@ -555,6 +567,15 @@ class $SubscriptionsTable extends Subscriptions
         ),
       );
     }
+    if (data.containsKey('cancelled_at')) {
+      context.handle(
+        _cancelledAtMeta,
+        cancelledAt.isAcceptableOrUnknown(
+          data['cancelled_at']!,
+          _cancelledAtMeta,
+        ),
+      );
+    }
     if (data.containsKey('created_at')) {
       context.handle(
         _createdAtMeta,
@@ -626,6 +647,10 @@ class $SubscriptionsTable extends Subscriptions
         DriftSqlType.dateTime,
         data['${effectivePrefix}repeat_until'],
       ),
+      cancelledAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}cancelled_at'],
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -659,6 +684,7 @@ class SubscriptionEntry extends DataClass
   final UnitOfTime unitOfTime;
   final int? repeatXTimes;
   final DateTime? repeatUntil;
+  final DateTime? cancelledAt;
   final DateTime createdAt;
   final DateTime updatedAt;
   const SubscriptionEntry({
@@ -673,6 +699,7 @@ class SubscriptionEntry extends DataClass
     required this.unitOfTime,
     this.repeatXTimes,
     this.repeatUntil,
+    this.cancelledAt,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -702,6 +729,9 @@ class SubscriptionEntry extends DataClass
     if (!nullToAbsent || repeatUntil != null) {
       map['repeat_until'] = Variable<DateTime>(repeatUntil);
     }
+    if (!nullToAbsent || cancelledAt != null) {
+      map['cancelled_at'] = Variable<DateTime>(cancelledAt);
+    }
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
     return map;
@@ -728,6 +758,9 @@ class SubscriptionEntry extends DataClass
       repeatUntil: repeatUntil == null && nullToAbsent
           ? const Value.absent()
           : Value(repeatUntil),
+      cancelledAt: cancelledAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(cancelledAt),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
     );
@@ -752,6 +785,7 @@ class SubscriptionEntry extends DataClass
       ),
       repeatXTimes: serializer.fromJson<int?>(json['repeatXTimes']),
       repeatUntil: serializer.fromJson<DateTime?>(json['repeatUntil']),
+      cancelledAt: serializer.fromJson<DateTime?>(json['cancelledAt']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
     );
@@ -773,6 +807,7 @@ class SubscriptionEntry extends DataClass
       ),
       'repeatXTimes': serializer.toJson<int?>(repeatXTimes),
       'repeatUntil': serializer.toJson<DateTime?>(repeatUntil),
+      'cancelledAt': serializer.toJson<DateTime?>(cancelledAt),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
     };
@@ -790,6 +825,7 @@ class SubscriptionEntry extends DataClass
     UnitOfTime? unitOfTime,
     Value<int?> repeatXTimes = const Value.absent(),
     Value<DateTime?> repeatUntil = const Value.absent(),
+    Value<DateTime?> cancelledAt = const Value.absent(),
     DateTime? createdAt,
     DateTime? updatedAt,
   }) => SubscriptionEntry(
@@ -804,6 +840,7 @@ class SubscriptionEntry extends DataClass
     unitOfTime: unitOfTime ?? this.unitOfTime,
     repeatXTimes: repeatXTimes.present ? repeatXTimes.value : this.repeatXTimes,
     repeatUntil: repeatUntil.present ? repeatUntil.value : this.repeatUntil,
+    cancelledAt: cancelledAt.present ? cancelledAt.value : this.cancelledAt,
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
   );
@@ -830,6 +867,9 @@ class SubscriptionEntry extends DataClass
       repeatUntil: data.repeatUntil.present
           ? data.repeatUntil.value
           : this.repeatUntil,
+      cancelledAt: data.cancelledAt.present
+          ? data.cancelledAt.value
+          : this.cancelledAt,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
     );
@@ -849,6 +889,7 @@ class SubscriptionEntry extends DataClass
           ..write('unitOfTime: $unitOfTime, ')
           ..write('repeatXTimes: $repeatXTimes, ')
           ..write('repeatUntil: $repeatUntil, ')
+          ..write('cancelledAt: $cancelledAt, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -868,6 +909,7 @@ class SubscriptionEntry extends DataClass
     unitOfTime,
     repeatXTimes,
     repeatUntil,
+    cancelledAt,
     createdAt,
     updatedAt,
   );
@@ -886,6 +928,7 @@ class SubscriptionEntry extends DataClass
           other.unitOfTime == this.unitOfTime &&
           other.repeatXTimes == this.repeatXTimes &&
           other.repeatUntil == this.repeatUntil &&
+          other.cancelledAt == this.cancelledAt &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -902,6 +945,7 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
   final Value<UnitOfTime> unitOfTime;
   final Value<int?> repeatXTimes;
   final Value<DateTime?> repeatUntil;
+  final Value<DateTime?> cancelledAt;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   final Value<int> rowid;
@@ -917,6 +961,7 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
     this.unitOfTime = const Value.absent(),
     this.repeatXTimes = const Value.absent(),
     this.repeatUntil = const Value.absent(),
+    this.cancelledAt = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -933,6 +978,7 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
     required UnitOfTime unitOfTime,
     this.repeatXTimes = const Value.absent(),
     this.repeatUntil = const Value.absent(),
+    this.cancelledAt = const Value.absent(),
     required DateTime createdAt,
     required DateTime updatedAt,
     this.rowid = const Value.absent(),
@@ -956,6 +1002,7 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
     Expression<int>? unitOfTime,
     Expression<int>? repeatXTimes,
     Expression<DateTime>? repeatUntil,
+    Expression<DateTime>? cancelledAt,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<int>? rowid,
@@ -972,6 +1019,7 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
       if (unitOfTime != null) 'unit_of_time': unitOfTime,
       if (repeatXTimes != null) 'repeat_x_times': repeatXTimes,
       if (repeatUntil != null) 'repeat_until': repeatUntil,
+      if (cancelledAt != null) 'cancelled_at': cancelledAt,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (rowid != null) 'rowid': rowid,
@@ -990,6 +1038,7 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
     Value<UnitOfTime>? unitOfTime,
     Value<int?>? repeatXTimes,
     Value<DateTime?>? repeatUntil,
+    Value<DateTime?>? cancelledAt,
     Value<DateTime>? createdAt,
     Value<DateTime>? updatedAt,
     Value<int>? rowid,
@@ -1006,6 +1055,7 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
       unitOfTime: unitOfTime ?? this.unitOfTime,
       repeatXTimes: repeatXTimes ?? this.repeatXTimes,
       repeatUntil: repeatUntil ?? this.repeatUntil,
+      cancelledAt: cancelledAt ?? this.cancelledAt,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       rowid: rowid ?? this.rowid,
@@ -1050,6 +1100,9 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
     if (repeatUntil.present) {
       map['repeat_until'] = Variable<DateTime>(repeatUntil.value);
     }
+    if (cancelledAt.present) {
+      map['cancelled_at'] = Variable<DateTime>(cancelledAt.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -1076,6 +1129,7 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntry> {
           ..write('unitOfTime: $unitOfTime, ')
           ..write('repeatXTimes: $repeatXTimes, ')
           ..write('repeatUntil: $repeatUntil, ')
+          ..write('cancelledAt: $cancelledAt, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('rowid: $rowid')
@@ -1402,6 +1456,7 @@ typedef $$SubscriptionsTableCreateCompanionBuilder =
       required UnitOfTime unitOfTime,
       Value<int?> repeatXTimes,
       Value<DateTime?> repeatUntil,
+      Value<DateTime?> cancelledAt,
       required DateTime createdAt,
       required DateTime updatedAt,
       Value<int> rowid,
@@ -1419,6 +1474,7 @@ typedef $$SubscriptionsTableUpdateCompanionBuilder =
       Value<UnitOfTime> unitOfTime,
       Value<int?> repeatXTimes,
       Value<DateTime?> repeatUntil,
+      Value<DateTime?> cancelledAt,
       Value<DateTime> createdAt,
       Value<DateTime> updatedAt,
       Value<int> rowid,
@@ -1508,6 +1564,11 @@ class $$SubscriptionsTableFilterComposer
 
   ColumnFilters<DateTime> get repeatUntil => $composableBuilder(
     column: $table.repeatUntil,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get cancelledAt => $composableBuilder(
+    column: $table.cancelledAt,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1604,6 +1665,11 @@ class $$SubscriptionsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<DateTime> get cancelledAt => $composableBuilder(
+    column: $table.cancelledAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -1686,6 +1752,11 @@ class $$SubscriptionsTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<DateTime> get cancelledAt => $composableBuilder(
+    column: $table.cancelledAt,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
@@ -1755,6 +1826,7 @@ class $$SubscriptionsTableTableManager
                 Value<UnitOfTime> unitOfTime = const Value.absent(),
                 Value<int?> repeatXTimes = const Value.absent(),
                 Value<DateTime?> repeatUntil = const Value.absent(),
+                Value<DateTime?> cancelledAt = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime> updatedAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -1770,6 +1842,7 @@ class $$SubscriptionsTableTableManager
                 unitOfTime: unitOfTime,
                 repeatXTimes: repeatXTimes,
                 repeatUntil: repeatUntil,
+                cancelledAt: cancelledAt,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 rowid: rowid,
@@ -1787,6 +1860,7 @@ class $$SubscriptionsTableTableManager
                 required UnitOfTime unitOfTime,
                 Value<int?> repeatXTimes = const Value.absent(),
                 Value<DateTime?> repeatUntil = const Value.absent(),
+                Value<DateTime?> cancelledAt = const Value.absent(),
                 required DateTime createdAt,
                 required DateTime updatedAt,
                 Value<int> rowid = const Value.absent(),
@@ -1802,6 +1876,7 @@ class $$SubscriptionsTableTableManager
                 unitOfTime: unitOfTime,
                 repeatXTimes: repeatXTimes,
                 repeatUntil: repeatUntil,
+                cancelledAt: cancelledAt,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 rowid: rowid,

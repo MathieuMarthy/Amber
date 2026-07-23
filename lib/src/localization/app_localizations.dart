@@ -355,6 +355,90 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Abonnement supprimé avec succès'**
   String get successDeleteToast;
+
+  /// No description provided for @home.
+  ///
+  /// In fr, this message translates to:
+  /// **'Accueil'**
+  String get home;
+
+  /// No description provided for @allSubscriptions.
+  ///
+  /// In fr, this message translates to:
+  /// **'Abonnements'**
+  String get allSubscriptions;
+
+  /// No description provided for @noSubscriptions.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun abonnement pour l\'instant'**
+  String get noSubscriptions;
+
+  /// No description provided for @inactiveSince.
+  ///
+  /// In fr, this message translates to:
+  /// **'Inactif depuis le {date}'**
+  String inactiveSince(String date);
+
+  /// No description provided for @inactive.
+  ///
+  /// In fr, this message translates to:
+  /// **'Inactif'**
+  String get inactive;
+
+  /// No description provided for @stopSubscription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Arrêter l\'abonnement'**
+  String get stopSubscription;
+
+  /// No description provided for @stopConfirmation.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voulez-vous arrêter cet abonnement ? Il sera conservé dans l\'historique.'**
+  String get stopConfirmation;
+
+  /// No description provided for @stop.
+  ///
+  /// In fr, this message translates to:
+  /// **'Arrêter'**
+  String get stop;
+
+  /// No description provided for @successStopToast.
+  ///
+  /// In fr, this message translates to:
+  /// **'Abonnement arrêté'**
+  String get successStopToast;
+
+  /// No description provided for @reactivateSubscription.
+  ///
+  /// In fr, this message translates to:
+  /// **'Réactiver'**
+  String get reactivateSubscription;
+
+  /// No description provided for @successReactivateToast.
+  ///
+  /// In fr, this message translates to:
+  /// **'Abonnement réactivé'**
+  String get successReactivateToast;
+
+  /// No description provided for @filterAll.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tous'**
+  String get filterAll;
+
+  /// No description provided for @filterActive.
+  ///
+  /// In fr, this message translates to:
+  /// **'Actifs'**
+  String get filterActive;
+
+  /// No description provided for @filterInactive.
+  ///
+  /// In fr, this message translates to:
+  /// **'Inactifs'**
+  String get filterInactive;
 }
 
 class _AppLocalizationsDelegate
