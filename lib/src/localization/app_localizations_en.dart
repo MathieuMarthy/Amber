@@ -217,4 +217,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get filterInactive => 'Inactive';
+
+  @override
+  String get endCondition => 'Stop condition';
+
+  @override
+  String get never => 'Never';
+
+  @override
+  String get onSpecificDate => 'On a specific date';
+
+  @override
+  String get afterXPayments => 'After X payments';
+
+  @override
+  String get endDate => 'End date';
+
+  @override
+  String get selectDate => 'Select a date';
+
+  @override
+  String get numberOfPayments => 'Number of payments';
+
+  @override
+  String endAfterPayments(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'After $count payments',
+      one: 'After 1 payment',
+    );
+    return '$_temp0';
+  }
 }

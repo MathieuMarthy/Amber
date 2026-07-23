@@ -63,7 +63,7 @@ class AllSubscriptionsPageState extends State<AllSubscriptionsPage> {
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
       itemCount: list.length,
       itemBuilder: (ctx, i) => SubscriptionItem(
         subscription: list[i],
@@ -95,7 +95,7 @@ class AllSubscriptionsPageState extends State<AllSubscriptionsPage> {
               unselectedLabelColor: colors.outline,
               indicatorColor: colors.primary,
               indicatorSize: TabBarIndicatorSize.tab,
-              dividerColor: colors.outlineVariant.withOpacity(0.5),
+              dividerColor: colors.outlineVariant.withValues(alpha: 0.5),
               tabs: [
                 Tab(text: context.loc.filterActive),
                 Tab(text: context.loc.filterInactive),

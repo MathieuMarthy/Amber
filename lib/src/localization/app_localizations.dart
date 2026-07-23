@@ -439,6 +439,54 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Inactifs'**
   String get filterInactive;
+
+  /// No description provided for @endCondition.
+  ///
+  /// In fr, this message translates to:
+  /// **'Condition d\'arrêt'**
+  String get endCondition;
+
+  /// No description provided for @never.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jamais'**
+  String get never;
+
+  /// No description provided for @onSpecificDate.
+  ///
+  /// In fr, this message translates to:
+  /// **'À une date précise'**
+  String get onSpecificDate;
+
+  /// No description provided for @afterXPayments.
+  ///
+  /// In fr, this message translates to:
+  /// **'Après X paiements'**
+  String get afterXPayments;
+
+  /// No description provided for @endDate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Date de fin'**
+  String get endDate;
+
+  /// No description provided for @selectDate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sélectionner une date'**
+  String get selectDate;
+
+  /// No description provided for @numberOfPayments.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nombre de paiements'**
+  String get numberOfPayments;
+
+  /// No description provided for @endAfterPayments.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{Après 1 paiement} other{Après {count} paiements}}'**
+  String endAfterPayments(int count);
 }
 
 class _AppLocalizationsDelegate

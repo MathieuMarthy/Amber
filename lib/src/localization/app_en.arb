@@ -101,5 +101,20 @@
   "successReactivateToast": "Subscription reactivated",
   "filterAll": "All",
   "filterActive": "Active",
-  "filterInactive": "Inactive"
+  "filterInactive": "Inactive",
+  "endCondition": "Stop condition",
+  "never": "Never",
+  "onSpecificDate": "On a specific date",
+  "afterXPayments": "After X payments",
+  "endDate": "End date",
+  "selectDate": "Select a date",
+  "numberOfPayments": "Number of payments",
+  "endAfterPayments": "{count, plural, =1{After 1 payment} other{After {count} payments}}",
+  "@endAfterPayments": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

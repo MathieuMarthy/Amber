@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+enum EndConditionType { never, date, count }
+
 class AddSubscription extends StatefulWidget {
   final SubscriptionEntry? subscriptionToEdit;
 
@@ -23,10 +25,13 @@ class AddSubscriptionState extends State<AddSubscription> {
   final _priceController = TextEditingController();
   final _notesController = TextEditingController();
   final _websiteUrlController = TextEditingController();
+  final _repeatXTimesController = TextEditingController();
 
   DateTime _startDay = DateTime.now();
   int _frequency = 1;
   UnitOfTime _unitOfTime = UnitOfTime.month;
+  EndConditionType _endCondition = EndConditionType.never;
+  DateTime? _repeatUntil;
   Category? _selectedCategory;
   List<Category> _categories = [];
   bool _isLoadingCategories = true;
@@ -43,6 +48,13 @@ class AddSubscriptionState extends State<AddSubscription> {
       _startDay = sub.startDay;
       _frequency = sub.frequency;
       _unitOfTime = sub.unitOfTime;
+      if (sub.repeatUntil != null) {
+        _endCondition = EndConditionType.date;
+        _repeatUntil = sub.repeatUntil;
+      } else if (sub.repeatXTimes != null) {
+        _endCondition = EndConditionType.count;
+        _repeatXTimesController.text = sub.repeatXTimes.toString();
+      }
       // Category will be selected after categories are loaded
     }
     _loadCategories();
@@ -85,6 +97,7 @@ class AddSubscriptionState extends State<AddSubscription> {
     _priceController.dispose();
     _notesController.dispose();
     _websiteUrlController.dispose();
+    _repeatXTimesController.dispose();
     super.dispose();
   }
 
@@ -97,6 +110,14 @@ class AddSubscriptionState extends State<AddSubscription> {
       try {
         final repo = context.read<SubscriptionRepository>();
         final webUrl = _websiteUrlController.text.trim();
+
+        DateTime? repeatUntil;
+        int? repeatXTimes;
+        if (_endCondition == EndConditionType.date) {
+          repeatUntil = _repeatUntil;
+        } else if (_endCondition == EndConditionType.count) {
+          repeatXTimes = int.tryParse(_repeatXTimesController.text);
+        }
 
         if (widget.subscriptionToEdit != null) {
           await repo.update(
@@ -111,6 +132,10 @@ class AddSubscriptionState extends State<AddSubscription> {
             startDay: _startDay,
             frequency: _frequency,
             unitOfTime: _unitOfTime.index,
+            repeatUntil: repeatUntil,
+            clearRepeatUntil: repeatUntil == null,
+            repeatXTimes: repeatXTimes,
+            clearRepeatXTimes: repeatXTimes == null,
           );
         } else {
           await repo.create(
@@ -122,6 +147,8 @@ class AddSubscriptionState extends State<AddSubscription> {
             startDay: _startDay,
             frequency: _frequency,
             unitOfTime: _unitOfTime.index,
+            repeatUntil: repeatUntil,
+            repeatXTimes: repeatXTimes,
           );
         }
         return true;
@@ -326,6 +353,87 @@ class AddSubscriptionState extends State<AddSubscription> {
               ),
             ],
           ),
+          const SizedBox(height: 16),
+          DropdownButtonFormField<EndConditionType>(
+            initialValue: _endCondition,
+            decoration: InputDecoration(
+              labelText: context.loc.endCondition,
+              border: const OutlineInputBorder(),
+              icon: const Icon(Icons.event_busy),
+            ),
+            items: [
+              DropdownMenuItem(
+                value: EndConditionType.never,
+                child: Text(context.loc.never),
+              ),
+              DropdownMenuItem(
+                value: EndConditionType.date,
+                child: Text(context.loc.onSpecificDate),
+              ),
+              DropdownMenuItem(
+                value: EndConditionType.count,
+                child: Text(context.loc.afterXPayments),
+              ),
+            ],
+            onChanged: (val) {
+              if (val != null) {
+                setState(() => _endCondition = val);
+              }
+            },
+          ),
+          if (_endCondition == EndConditionType.date) ...[
+            const SizedBox(height: 16),
+            InkWell(
+              onTap: () async {
+                final picked = await showDatePicker(
+                  context: context,
+                  initialDate: _repeatUntil ?? DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                );
+                if (picked != null) {
+                  setState(() {
+                    _repeatUntil = picked;
+                  });
+                }
+              },
+              borderRadius: BorderRadius.circular(4),
+              child: InputDecorator(
+                decoration: InputDecoration(
+                  labelText: context.loc.endDate,
+                  border: const OutlineInputBorder(),
+                  icon: const Icon(Icons.event),
+                ),
+                child: Text(
+                  _repeatUntil != null
+                      ? dateFormat.format(_repeatUntil!)
+                      : context.loc.selectDate,
+                  style: theme.textTheme.bodyLarge,
+                ),
+              ),
+            ),
+          ] else if (_endCondition == EndConditionType.count) ...[
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: _repeatXTimesController,
+              decoration: InputDecoration(
+                labelText: context.loc.numberOfPayments,
+                border: const OutlineInputBorder(),
+                icon: const Icon(Icons.numbers),
+              ),
+              keyboardType: TextInputType.number,
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return context.loc.required;
+                }
+                final val = int.tryParse(value);
+                if (val == null || val <= 0) {
+                  return context.loc.invalid;
+                }
+                return null;
+              },
+            ),
+          ],
           const SizedBox(height: 16),
           _isLoadingCategories
               ? const Center(child: CircularProgressIndicator())

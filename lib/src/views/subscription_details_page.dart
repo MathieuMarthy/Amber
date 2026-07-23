@@ -210,6 +210,18 @@ class _SubscriptionDetailsPageState extends State<SubscriptionDetailsPage> {
                   value: _getRecurrenceText(context),
                 ),
                 const SizedBox(height: 24),
+                _DetailRow(
+                  icon: Icons.event_busy,
+                  title: context.loc.endCondition,
+                  value: _subscription.repeatUntil != null
+                      ? df.format(_subscription.repeatUntil!)
+                      : _subscription.repeatXTimes != null
+                      ? context.loc.endAfterPayments(
+                          _subscription.repeatXTimes!,
+                        )
+                      : context.loc.never,
+                ),
+                const SizedBox(height: 24),
                 if (_category != null) ...[
                   _DetailRow(
                     icon: Icons.category,

@@ -70,7 +70,9 @@ class _SubscriptionItemState extends State<SubscriptionItem> {
               children: [
                 Container(
                   alignment: Alignment.topCenter,
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                  ).copyWith(right: 20),
                   child: Hero(
                     tag:
                         '${widget.heroTagPrefix}avatar_${widget.subscription.id}',
@@ -104,7 +106,6 @@ class _SubscriptionItemState extends State<SubscriptionItem> {
             formattedPrice,
             style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
           ),
-          const SizedBox(width: 20),
         ],
       ),
     );
