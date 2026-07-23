@@ -1,0 +1,120 @@
+{
+  "@@locale": "fr",
+  "addSubscription": "Ajouter un abonnement",
+  "editSubscription": "Modifier l'abonnement",
+  "subscriptionName": "Nom de l'abonnement",
+  "subscriptionNameHint": "ex: Netflix, Spotify",
+  "validationNameRequired": "Veuillez saisir un nom",
+  "price": "Prix",
+  "priceHint": "ex: 9.99",
+  "validationPriceRequired": "Veuillez saisir un prix",
+  "validationPriceInvalid": "Veuillez saisir un nombre valide",
+  "validationPriceNegative": "Le prix ne peut pas être négatif",
+  "validationPriceDecimals": "Pas plus de 2 décimales",
+  "firstPaymentDate": "Date du premier paiement",
+  "repeatEvery": "Répéter tous les",
+  "required": "Requis",
+  "invalid": "Invalide",
+  "period": "Période",
+  "days": "Jour(s)",
+  "weeks": "Semaine(s)",
+  "months": "Mois",
+  "years": "An(s)",
+  "category": "Catégorie",
+  "none": "Aucune",
+  "manageCategories": "Gérer les catégories",
+  "notes": "Notes",
+  "notesHint": "Ajouter des détails...",
+  "errorCreating": "Erreur lors de la création : {error}",
+  "@errorCreating": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "cancel": "Annuler",
+  "successToast": "Abonnement créé avec succès",
+  "websiteUrl": "URL du site (optionnel)",
+  "websiteUrlHint": "https://netflix.com",
+  "websiteUrlTooltip": "Entrez l'URL du site pour afficher automatiquement le logo du service (ex : https://netflix.com)",
+  "paymentThisMonth": "Paiement ce mois-ci",
+  "recurrenceDays": "{count, plural, =1{Tous les jours} other{Tous les {count} jours}}",
+  "@recurrenceDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recurrenceWeeks": "{count, plural, =1{Toutes les semaines} other{Toutes les {count} semaines}}",
+  "@recurrenceWeeks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recurrenceMonths": "{count, plural, =1{Tous les mois, le {day}} other{Tous les {count} mois, le {day}}}",
+  "@recurrenceMonths": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "recurrenceYears": "{count, plural, =1{Tous les ans} other{Tous les {count} ans}}",
+  "@recurrenceYears": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "subscriptionDetails": "Détails de l'abonnement",
+  "edit": "Modifier",
+  "delete": "Supprimer",
+  "deleteSubscription": "Supprimer l'abonnement",
+  "deleteConfirmation": "Êtes-vous sûr de vouloir supprimer cet abonnement ?",
+  "successUpdateToast": "Abonnement modifié avec succès",
+  "successDeleteToast": "Abonnement supprimé avec succès",
+  "home": "Accueil",
+  "allSubscriptions": "Abonnements",
+  "noSubscriptions": "Aucun abonnement pour l'instant",
+  "inactiveSince": "Inactif depuis le {date}",
+  "@inactiveSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "inactive": "Inactif",
+  "stopSubscription": "Arrêter l'abonnement",
+  "stopConfirmation": "Voulez-vous arrêter cet abonnement ? Il sera conservé dans l'historique.",
+  "stop": "Arrêter",
+  "successStopToast": "Abonnement arrêté",
+  "reactivateSubscription": "Réactiver",
+  "successReactivateToast": "Abonnement réactivé",
+  "filterAll": "Tous",
+  "filterActive": "Actifs",
+  "filterInactive": "Inactifs",
+  "endCondition": "Condition d'arrêt",
+  "never": "Jamais",
+  "onSpecificDate": "À une date précise",
+  "afterXPayments": "Après X paiements",
+  "endDate": "Date de fin",
+  "selectDate": "Sélectionner une date",
+  "numberOfPayments": "Nombre de paiements",
+  "endAfterPayments": "{count, plural, =1{Après 1 paiement} other{Après {count} paiements}}",
+  "@endAfterPayments": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+}

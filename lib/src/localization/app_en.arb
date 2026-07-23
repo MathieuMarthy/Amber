@@ -1,0 +1,120 @@
+{
+  "@@locale": "en",
+  "addSubscription": "Add subscription",
+  "editSubscription": "Edit subscription",
+  "subscriptionName": "Subscription name",
+  "subscriptionNameHint": "e.g., Netflix, Spotify",
+  "validationNameRequired": "Please enter a name",
+  "price": "Price",
+  "priceHint": "e.g., 9.99",
+  "validationPriceRequired": "Please enter a price",
+  "validationPriceInvalid": "Please enter a valid number",
+  "validationPriceNegative": "Price cannot be negative",
+  "validationPriceDecimals": "No more than 2 decimal places",
+  "firstPaymentDate": "First payment date",
+  "repeatEvery": "Repeat every",
+  "required": "Required",
+  "invalid": "Invalid",
+  "period": "Period",
+  "days": "Day(s)",
+  "weeks": "Week(s)",
+  "months": "Month(s)",
+  "years": "Year(s)",
+  "category": "Category",
+  "none": "None",
+  "manageCategories": "Manage categories",
+  "notes": "Notes",
+  "notesHint": "Add details...",
+  "errorCreating": "Error creating: {error}",
+  "@errorCreating": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "cancel": "Cancel",
+  "successToast": "Subscription created successfully",
+  "websiteUrl": "Website URL (optional)",
+  "websiteUrlHint": "https://netflix.com",
+  "websiteUrlTooltip": "Enter the website URL to automatically display the service logo (e.g. https://netflix.com)",
+  "paymentThisMonth": "Payment this month",
+  "recurrenceDays": "{count, plural, =1{Every day} other{Every {count} days}}",
+  "@recurrenceDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recurrenceWeeks": "{count, plural, =1{Every week} other{Every {count} weeks}}",
+  "@recurrenceWeeks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recurrenceMonths": "{count, plural, =1{Every month, on the {day}} other{Every {count} months, on the {day}}}",
+  "@recurrenceMonths": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "recurrenceYears": "{count, plural, =1{Every year} other{Every {count} years}}",
+  "@recurrenceYears": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "subscriptionDetails": "Subscription details",
+  "edit": "Edit",
+  "delete": "Delete",
+  "deleteSubscription": "Delete subscription",
+  "deleteConfirmation": "Are you sure you want to delete this subscription?",
+  "successUpdateToast": "Subscription updated successfully",
+  "successDeleteToast": "Subscription deleted successfully",
+  "home": "Home",
+  "allSubscriptions": "All subscriptions",
+  "noSubscriptions": "No subscriptions yet",
+  "inactiveSince": "Inactive since {date}",
+  "@inactiveSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "inactive": "Inactive",
+  "stopSubscription": "Stop subscription",
+  "stopConfirmation": "Do you want to stop this subscription? It will be kept in history.",
+  "stop": "Stop",
+  "successStopToast": "Subscription stopped",
+  "reactivateSubscription": "Reactivate",
+  "successReactivateToast": "Subscription reactivated",
+  "filterAll": "All",
+  "filterActive": "Active",
+  "filterInactive": "Inactive",
+  "endCondition": "Stop condition",
+  "never": "Never",
+  "onSpecificDate": "On a specific date",
+  "afterXPayments": "After X payments",
+  "endDate": "End date",
+  "selectDate": "Select a date",
+  "numberOfPayments": "Number of payments",
+  "endAfterPayments": "{count, plural, =1{After 1 payment} other{After {count} payments}}",
+  "@endAfterPayments": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+}
