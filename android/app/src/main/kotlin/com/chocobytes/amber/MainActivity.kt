@@ -1,4 +1,4 @@
-package com.example.amber_calendar
+package com.chocobytes.amber
 
 import io.flutter.embedding.android.FlutterActivity
 
