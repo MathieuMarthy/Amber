@@ -1,5 +1,5 @@
 class FaviconService {
-  static const int _size = 64;
+  static const int _size = 256;
 
   /// Returns the Google favicon API URL for a given website URL,
   /// or null if [websiteUrl] is null or empty.
