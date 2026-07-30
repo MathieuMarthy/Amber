@@ -116,5 +116,18 @@
         "type": "int"
       }
     }
-  }
+  },
+  "settings": "Settings",
+  "theme": "Theme",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
+  "currency": "Currency",
+  "exportDatabase": "Export Database",
+  "importDatabase": "Import Database",
+  "importWarning": "Importing a database will erase all your current data. Are you sure you want to proceed?",
+  "importSuccess": "Database imported successfully.",
+  "exportError": "Failed to export the database.",
+  "importError": "Failed to import the database.",
+  "dataManagement": "Data"
 }

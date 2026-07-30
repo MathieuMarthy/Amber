@@ -7,30 +7,38 @@ import "package:amber_calendar/src/views/root_page.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:provider/provider.dart";
 import "package:amber_calendar/src/localization/app_localizations.dart";
+import "package:shared_preferences/shared_preferences.dart";
+import "package:amber_calendar/src/providers/settings_provider.dart";
+import "package:flutter_phoenix/flutter_phoenix.dart";
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final database = AppDatabase();
+  final prefs = await SharedPreferences.getInstance();
 
   runApp(
-    MultiProvider(
-      providers: [
-        Provider<AppDatabase>(
-          create: (_) => database,
-          dispose: (_, db) => db.close(),
-        ),
-        Provider<CategoryRepository>(
-          create: (ctx) =>
-              CategoryRepository(ctx.read<AppDatabase>().localCategoryDao),
-        ),
-        Provider<SubscriptionRepository>(
-          create: (ctx) => SubscriptionRepository(
-            ctx.read<AppDatabase>().localSubscriptionDao,
+    Phoenix(
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => SettingsProvider(prefs),
           ),
-        ),
-      ],
-      child: const Amber(),
+          Provider<AppDatabase>(
+            create: (_) => AppDatabase(),
+            dispose: (_, db) => db.close(),
+          ),
+          Provider<CategoryRepository>(
+            create: (ctx) =>
+                CategoryRepository(ctx.read<AppDatabase>().localCategoryDao),
+          ),
+          Provider<SubscriptionRepository>(
+            create: (ctx) => SubscriptionRepository(
+              ctx.read<AppDatabase>().localSubscriptionDao,
+            ),
+          ),
+        ],
+        child: const Amber(),
+      ),
     ),
   );
 }
@@ -50,6 +58,8 @@ class Amber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settings = context.watch<SettingsProvider>();
+
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         ColorScheme lightColorScheme;
@@ -96,8 +106,7 @@ class Amber extends StatelessWidget {
               },
             ),
           ),
-          themeMode:
-              ThemeMode.system, // Automatically switch based on system setting
+          themeMode: settings.themeMode,
           home: const RootPage(),
         );
       },

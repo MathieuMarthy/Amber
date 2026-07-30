@@ -1,6 +1,7 @@
 import 'package:amber_calendar/src/views/add_subscription_page.dart';
 import 'package:amber_calendar/src/views/all_subscriptions_page.dart';
 import 'package:amber_calendar/src/views/home_page.dart';
+import 'package:amber_calendar/src/views/settings_page.dart';
 import 'package:amber_calendar/src/utils/localization.dart';
 import 'package:amber_calendar/src/widgets/fab_styles.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class _RootPageState extends State<RootPage> {
         children: [
           HomePageBody(key: _homeKey),
           AllSubscriptionsPage(key: _allSubsKey),
+          const SettingsPage(),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -47,7 +49,7 @@ class _RootPageState extends State<RootPage> {
           setState(() => _selectedIndex = i);
           if (i == 0) {
             _homeKey.currentState?.refresh();
-          } else {
+          } else if (i == 1) {
             _allSubsKey.currentState?.refresh();
           }
         },
@@ -61,6 +63,11 @@ class _RootPageState extends State<RootPage> {
             icon: const Icon(Icons.list_outlined),
             selectedIcon: const Icon(Icons.list),
             label: context.loc.allSubscriptions,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.settings_outlined),
+            selectedIcon: const Icon(Icons.settings),
+            label: context.loc.settings,
           ),
         ],
       ),

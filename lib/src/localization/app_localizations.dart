@@ -487,6 +487,84 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'{count, plural, =1{Après 1 paiement} other{Après {count} paiements}}'**
   String endAfterPayments(int count);
+
+  /// No description provided for @settings.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paramètres'**
+  String get settings;
+
+  /// No description provided for @theme.
+  ///
+  /// In fr, this message translates to:
+  /// **'Thème'**
+  String get theme;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In fr, this message translates to:
+  /// **'Clair'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sombre'**
+  String get themeDark;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In fr, this message translates to:
+  /// **'Système'**
+  String get themeSystem;
+
+  /// No description provided for @currency.
+  ///
+  /// In fr, this message translates to:
+  /// **'Devise'**
+  String get currency;
+
+  /// No description provided for @exportDatabase.
+  ///
+  /// In fr, this message translates to:
+  /// **'Exporter la base de données'**
+  String get exportDatabase;
+
+  /// No description provided for @importDatabase.
+  ///
+  /// In fr, this message translates to:
+  /// **'Importer une base de données'**
+  String get importDatabase;
+
+  /// No description provided for @importWarning.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'importation d\'une base de données effacera toutes vos données actuelles. Êtes-vous sûr de vouloir continuer ?'**
+  String get importWarning;
+
+  /// No description provided for @importSuccess.
+  ///
+  /// In fr, this message translates to:
+  /// **'Base de données importée avec succès.'**
+  String get importSuccess;
+
+  /// No description provided for @exportError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Échec de l\'exportation de la base de données.'**
+  String get exportError;
+
+  /// No description provided for @importError.
+  ///
+  /// In fr, this message translates to:
+  /// **'Échec de l\'importation de la base de données.'**
+  String get importError;
+
+  /// No description provided for @dataManagement.
+  ///
+  /// In fr, this message translates to:
+  /// **'Données'**
+  String get dataManagement;
 }
 
 class _AppLocalizationsDelegate

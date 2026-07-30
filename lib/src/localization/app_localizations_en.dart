@@ -249,4 +249,44 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get themeSystem => 'System';
+
+  @override
+  String get currency => 'Currency';
+
+  @override
+  String get exportDatabase => 'Export Database';
+
+  @override
+  String get importDatabase => 'Import Database';
+
+  @override
+  String get importWarning =>
+      'Importing a database will erase all your current data. Are you sure you want to proceed?';
+
+  @override
+  String get importSuccess => 'Database imported successfully.';
+
+  @override
+  String get exportError => 'Failed to export the database.';
+
+  @override
+  String get importError => 'Failed to import the database.';
+
+  @override
+  String get dataManagement => 'Data';
 }

@@ -3,8 +3,10 @@ import 'package:amber_calendar/src/repositories/subscription_repository.dart';
 import 'package:amber_calendar/src/utils/localization.dart';
 import 'package:amber_calendar/src/widgets/subscription/subscription_item.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 import 'package:provider/provider.dart';
+import 'package:amber_calendar/src/providers/settings_provider.dart';
+import 'package:amber_calendar/src/utils/currency_utils.dart';
 
 class SubscriptionList extends StatefulWidget {
   final VoidCallback? onRefreshNeeded;
@@ -55,6 +57,7 @@ class SubscriptionListState extends State<SubscriptionList> {
 
   @override
   Widget build(BuildContext context) {
+    final currencySymbol = context.watch<SettingsProvider>().currencySymbol;
     return Column(
       children: [
         const Padding(padding: EdgeInsets.only(top: 92)),
@@ -72,11 +75,7 @@ class SubscriptionListState extends State<SubscriptionList> {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : Text(
-                    NumberFormat.currency(
-                      symbol: '€',
-                      decimalDigits: 2,
-                      locale: Localizations.localeOf(context).toString(),
-                    ).format(_monthlyTotalCents! / 100),
+                    CurrencyUtils.format(context, _monthlyTotalCents!, currencySymbol),
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,

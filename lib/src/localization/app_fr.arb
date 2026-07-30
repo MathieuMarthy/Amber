@@ -116,5 +116,18 @@
         "type": "int"
       }
     }
-  }
+  },
+  "settings": "Paramètres",
+  "theme": "Thème",
+  "themeLight": "Clair",
+  "themeDark": "Sombre",
+  "themeSystem": "Système",
+  "currency": "Devise",
+  "exportDatabase": "Exporter la base de données",
+  "importDatabase": "Importer une base de données",
+  "importWarning": "L'importation d'une base de données effacera toutes vos données actuelles. Êtes-vous sûr de vouloir continuer ?",
+  "importSuccess": "Base de données importée avec succès.",
+  "exportError": "Échec de l'exportation de la base de données.",
+  "importError": "Échec de l'importation de la base de données.",
+  "dataManagement": "Données"
 }
