@@ -249,4 +249,44 @@ class AppLocalizationsFr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get settings => 'Paramètres';
+
+  @override
+  String get theme => 'Thème';
+
+  @override
+  String get themeLight => 'Clair';
+
+  @override
+  String get themeDark => 'Sombre';
+
+  @override
+  String get themeSystem => 'Système';
+
+  @override
+  String get currency => 'Devise';
+
+  @override
+  String get exportDatabase => 'Exporter la base de données';
+
+  @override
+  String get importDatabase => 'Importer une base de données';
+
+  @override
+  String get importWarning =>
+      'L\'importation d\'une base de données effacera toutes vos données actuelles. Êtes-vous sûr de vouloir continuer ?';
+
+  @override
+  String get importSuccess => 'Base de données importée avec succès.';
+
+  @override
+  String get exportError => 'Échec de l\'exportation de la base de données.';
+
+  @override
+  String get importError => 'Échec de l\'importation de la base de données.';
+
+  @override
+  String get dataManagement => 'Données';
 }

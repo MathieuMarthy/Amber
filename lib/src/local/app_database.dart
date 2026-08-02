@@ -66,6 +66,7 @@ class AppDatabase extends _$AppDatabase {
       }
     },
   );
+
 }
 
 LazyDatabase _openConnection() {

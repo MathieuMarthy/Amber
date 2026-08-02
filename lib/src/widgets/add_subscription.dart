@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:amber_calendar/src/providers/settings_provider.dart';
+import 'package:amber_calendar/src/utils/currency_utils.dart';
 
 enum EndConditionType { never, date, count }
 
@@ -190,6 +192,7 @@ class AddSubscriptionState extends State<AddSubscription> {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
     final dateFormat = DateFormat('dd/MM/yyyy');
+    final currencySymbol = context.watch<SettingsProvider>().currencySymbol;
 
     return Form(
       key: _formKey,
@@ -228,7 +231,8 @@ class AddSubscriptionState extends State<AddSubscription> {
             decoration: InputDecoration(
               labelText: context.loc.price,
               hintText: context.loc.priceHint,
-              suffixText: '€',
+              prefixText: CurrencyUtils.isSymbolOnLeft(currencySymbol) ? '$currencySymbol ' : null,
+              suffixText: CurrencyUtils.isSymbolOnLeft(currencySymbol) ? null : ' $currencySymbol',
               border: const OutlineInputBorder(),
               icon: const Icon(Icons.euro),
             ),

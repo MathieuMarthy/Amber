@@ -21,11 +21,13 @@ Amber Calendar helps you regain control over your subscriptions and recurring pa
 ## Screenshots
 
 <p align="center">
-  <img src="assets/readme/screen_home.jpg" width="30%" alt="Home Screen">
+  <img src="assets/readme/screen_home.jpg" width="23%" alt="Home Screen">
   &nbsp; &nbsp;
-  <img src="assets/readme/screen_all_sub.jpg" width="30%" alt="All Subscriptions">
+  <img src="assets/readme/screen_all_sub.jpg" width="23%" alt="All Subscriptions">
   &nbsp; &nbsp;
-  <img src="assets/readme/screen_details.jpg" width="30%" alt="Subscription Details">
+  <img src="assets/readme/screen_details.jpg" width="23%" alt="Subscription Details">
+  &nbsp; &nbsp;
+  <img src="assets/readme/screen_settings.jpg" width="23%" alt="Settings">
 </p>
 
 ## Getting Started

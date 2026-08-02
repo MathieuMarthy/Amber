@@ -9,6 +9,8 @@ import 'package:amber_calendar/src/widgets/subscription/subscription_avatar.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:amber_calendar/src/providers/settings_provider.dart';
+import 'package:amber_calendar/src/utils/currency_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SubscriptionDetailsPage extends StatefulWidget {
@@ -82,11 +84,8 @@ class _SubscriptionDetailsPageState extends State<SubscriptionDetailsPage> {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final formattedPrice = NumberFormat.currency(
-      symbol: '€',
-      decimalDigits: 2,
-      locale: Localizations.localeOf(context).toString(),
-    ).format(_subscription.price / 100);
+    final currencySymbol = context.watch<SettingsProvider>().currencySymbol;
+    final formattedPrice = CurrencyUtils.format(context, _subscription.price, currencySymbol);
 
     final df = DateFormat.yMMMd(Localizations.localeOf(context).toString());
 

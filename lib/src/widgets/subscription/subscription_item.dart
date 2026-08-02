@@ -3,7 +3,10 @@ import 'package:amber_calendar/src/utils/localization.dart';
 import 'package:amber_calendar/src/views/subscription_details_page.dart';
 import 'package:amber_calendar/src/widgets/subscription/subscription_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
+import 'package:provider/provider.dart';
+import 'package:amber_calendar/src/providers/settings_provider.dart';
+import 'package:amber_calendar/src/utils/currency_utils.dart';
 
 class SubscriptionItem extends StatefulWidget {
   final SubscriptionEntry subscription;
@@ -43,11 +46,8 @@ class _SubscriptionItemState extends State<SubscriptionItem> {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final formattedPrice = NumberFormat.currency(
-      symbol: '€',
-      decimalDigits: 2,
-      locale: Localizations.localeOf(context).toString(),
-    ).format(widget.subscription.price / 100);
+    final currencySymbol = context.watch<SettingsProvider>().currencySymbol;
+    final formattedPrice = CurrencyUtils.format(context, widget.subscription.price, currencySymbol);
 
     return InkWell(
       onTap: () async {
