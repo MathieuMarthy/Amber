@@ -61,10 +61,15 @@ class SettingsPageState extends State<SettingsPage> {
     if (confirm != true) return;
 
     final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['db', 'sqlite', 'sqlite3'],
+      type: FileType.any,
     );
     if (result != null && result.files.single.path != null) {
+      final path = result.files.single.path!;
+      final ext = path.split('.').last.toLowerCase();
+      if (!['db', 'sqlite', 'sqlite3'].contains(ext)) {
+        if (mounted) showAndroidToast(context, 'Invalid file type. Select a database file.');
+        return;
+      }
       try {
         if (!mounted) return;
         final db = context.read<AppDatabase>();
